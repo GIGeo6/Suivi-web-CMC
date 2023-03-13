@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h1>Camion {{camion.identifiant}}</h1>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h2><a href="{% url 'affaire' camion.id_affaires.id %}">Affaire {{affaire.numero}} - {{affaire.chantier}}</a></h2>
+    </div>
+    <div class="d-flex justify-content-center">
+        {% if perms.suivi.change_camions %}
+        <a class="btn btn-outline-warning" href="{% url 'editCamion' camion.id %}">Modifier le camion</a>
+        {% endif %}
+        {% if perms.suivi.delete_camions %}
+        <a class="btn btn-outline-danger" href="{% url 'deleteCamion' camion.id %}">Supprimer le camion</a>
+        {% endif %}
+    </div>
+</div>
+        <br>
+<div class="container">
+        <h2>Details camion</h2>
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Identifiant</th>
+                    <th>Transporteur</th>
+                    <th>Poids</th>
+                    <th>Capacite</th>
+                    <th>Date de livraison</th>
+                    <th>Date de depart</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{camion.identifiant}}</td>
+                    <td>{{camion.transporteur}}</td>
+                    <td>{{camion.poids}}</td>
+                    <td>{{camion.capacite}}</td>
+                    <td>{{camion.date_livraison}}</td>
+                    <td>{{camion.date_depart}}</td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+        <br>
+<div class="container">
+    <br>
+    <div class="row">
+        <h2>Chargement camion</h2>
+        
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <table style="display:none">
+                {{ view.formset.empty_form }}
+            </table>
+
+            <table>
+                {{ view.formset }}
+            </table>
+
+            <input class="btn btn-outline-success" type="submit" value="Ajouter">
+        </form>
+        <br>
+    </div>
+    <div class="row">
+        {% if chargementCamion %}
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Numero piece</th>
+                        <th>Quantite</th>
+                        <th>Poids total</th>
+                        <th>details piece</th>
+                        {% if perms.suivi.change_chargementcamions %}
+                        <th>Modifier</th>
+                        {% endif %}
+                        {% if perms.suivi.delete_chargementcamions %}
+                        <th>Supprimer</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for piece in chargementCamion %}
+                    <tr>
+                        <td>{{piece.numero_piece}}</td>
+                        <td>{{piece.quantite_piece}}</td>
+                        <td>
+                            {% if piece.id_pieces %}
+                                {% widthratio piece.id_pieces.poids_unitaire 1 piece.quantite_piece %}
+                            {% endif %}
+                            {% if piece.id_sous_ensemble %}
+                                {% widthratio piece.id_sous_ensemble.poids 1 piece.quantite_piece %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if piece.id_pieces %}
+                            <a href="{% url 'piece' piece.id_pieces.id %}">Voir</a>
+                            {% endif %}
+                            {% if piece.id_sous_ensemble %}
+                            <a href="{% url 'sousEnsemble' piece.id_sous_ensemble.id %}">Voir</a>
+                            {% endif %}
+                        </td>
+                        {% if perms.suivi.change_chargementcamions %}
+                        <td><a class="btn btn-outline-warning" href="{% url 'editChargementCamion' id=piece.id %}">Modifier</a></td>
+                        {% endif %}
+                        {% if perms.suivi.delete_chargementcamions %}
+                        <td><a class="btn btn-outline-danger" href="{% url 'deleteChargementCamion' id=piece.id %}">Supprimer</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h1>Outil {{outil.numero}} - {{ outil.nom }}</h1>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h2><a href="{% url 'affaire' affaire.id %}">Affaire {{affaire.numero}} - {{ affaire.chantier }}</a></h2>
+    </div>
+    <div class="d-flex justify-content-center">
+        {% if perms.suivi.change_outils %}
+        <a class="btn btn-outline-warning" href="{% url 'editOutil' outil.id %}">Modifier l'outil</a>
+        {% endif %}
+        {% if perms.suivi.delete_outils %}
+        <a class="btn btn-outline-danger" href="{% url 'deleteOutil' outil.id %}">Supprimer l'outil</a>
+        {% endif %}
+    </div>
+</div>
+<div class="container">
+    <br>
+        <h2>Recapitulatif</h2>
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Numero</th>
+                    <th>Affaire</th>
+                    <th>Quantite</th>
+                    <th>Options</th>
+                    <th>Date offre</th>
+                    <th>Version offre</th>
+                    <th>Lien offre</th>
+                    <th>Date livraison</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{outil.numero}}</td>
+                    <td>{{outil.id_affaires.numero}}</td>
+                    <td>{{outil.quantite}}</td>
+                    <td>{{outil.option}}</td>
+                    <td>{{outil.date_offre}}</td>
+                    <td>{{outil.version_offre}}</td>
+                    <td>{{outil.lien_offre}}</td>
+                    <td>{{outil.date_livraison}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+</div>
+
+<div class="container">
+    <h2>Nomenclature</h2>
+    {% if perms.suivi.add_nomenclature %}
+    <a class="btn btn-outline-primary" href="{% url 'createNomenclature' affaire.id outil.id %}">Créer Nomenclature</a>
+    {% endif %}
+    <br>
+    {% if perms.suivi.add_ensembles %}
+        <a class="btn btn-outline-primary" href="{% url 'createEnsemble' affaire.id outil.id %}">Ajouter un ensemble</a>
+    {% endif %}
+
+    {% if ensembles %}
+
+    <table class="table table-hover table_bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Nom</th>
+                <th>Numero</th>
+                <th>Poids</th>
+                <th>Lien ensemble</th>
+                <th>Avancement global</th>
+                <th>Débit</th>
+                <th>Montage</th>
+                <th>Soudure</th>
+                <th>Ajustage/Montage</th>
+                <th>Peinture</th>
+                <th>Zone colisage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ensemble,avancement in dictionnaire_E.items %}
+            <tr>
+                <td>{{ensemble.nom}}</td>
+                <td>{{ensemble.numero}}</td>
+                <td>{{ensemble.poids}}</td>
+                <td><a class="btn btn-outline-primary" href="{% url 'ensemble' ensemble.id %}">Voir</a></td>
+                <td>{{avancement.avancement_global}}</td>
+                <td>{{avancement.debit}}</td>
+                <td>{{avancement.montage}}</td>
+                <td>{{avancement.soudure}}</td>
+                <td>{{avancement.ajustage}}</td>
+                <td>{{avancement.peinture}}</td>
+                <td>{{avancement.colisage}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+
+    <h2>Détails</h2>
+
+    {% for ensemble,pieces in dictionnaire_SE.items %}
+    <div>
+        <h3>Ensemble {{ensemble.nom}} - {{ensemble.numero}}</h3>
+
+        <div>
+            <table class="table table-hover table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Pièce</th>
+                        <th>N° de plan</th>
+                        <th>Quantité</th>
+                        <th>Poids unitaire</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for piece in pieces %}
+                    <tr>
+                        <td>{{piece.numero}}</td>
+                        <td>{{piece.plan}}</td>
+                        <td>{{piece.quantite}}</td>
+                        <td>{{piece.poids}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <table class="table table-hover table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Poids total</th>
+                        <th>Couleur</th>
+                        <th>Indice de complexité</th>
+                        <th>Heures de fab</th>
+                        <th>Coût/pièce</th>
+                        <th>OF</th>
+                        <th>Revision</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for piece in pieces %}
+                    <tr>
+                        <td>{% widthratio piece.poids 1 piece.quantite %}</td>
+                        <td>{{piece.couleur_peinture}}</td>
+                        <td>{{piece.indice_de_complexite}}</td>
+                        <td>{{piece.heures_fabrication}}</td>
+                        <td>{{piece.cout_unitaire}}</td>
+                        <td>{{piece.of}}</td>
+                        <td>{{piece.revision}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        
+        </div>
+
+        
+    </div>
+    {% endfor %}
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

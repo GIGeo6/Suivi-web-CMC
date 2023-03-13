@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h1>Sous-ensemble {{sousEnsemble.numero}}</h1>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h2>
+            <a href="{% url 'affaire' affaire.id %}">Affaire {{affaire.numero}} - {{affaire.chantier}}</a>
+        </h2>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h2>
+            <a href="{% url 'outil' outil.id %}">Outil {{outil.numero}} - {{outil.nom}}</a>
+        </h2>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h2>
+            <a href="{% url 'ensemble' ensemble.id %}">Ensemble {{ensemble.numero}} - {{ensemble.nom }}</a>
+        </h2>
+    </div>
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-outline-warning" href="{% url 'editSousEnsemble' sousEnsemble.id %}">Modifier</a>
+        <a class="btn btn-outline-danger" href="{% url 'deleteSousEnsemble' sousEnsemble.id %}">Supprimer</a>
+    </div>
+</div>
+<br>
+<div class="container">
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Poids unitaire</th>
+                <th>Taux de complexité</th>
+                <th>Compagnon</th>
+                <th>Nestings</th>
+                <th>Feuilles de débit</th>
+                <th>Couleur peinture</th>
+                <th>Colisage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{sousEnsemble.poids}}</td>
+                <td>{{sousEnsemble.taux_de_complexite}}</td>
+                <td>{{sousEnsemble.compagnon}}</td>
+                <td>{{sousEnsemble.nestings}}</td>
+                <td>{{sousEnsemble.feuilles_de_debit}}</td>
+                <td>{{sousEnsemble.couleur_peinture}}</td>
+                <td>{{sousEnsemble.colisage}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <h2>Avancement</h2>
+    {% if perms.suivi.change_sousensemble %}
+        <a class="btn btn-outline-warning" href="{% url 'editAvancementSE' avancement.id %}">Modifier l'avancement</a>
+    {% endif %}
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Decoupe CN</th>
+                <th>Debit</th>
+                <th>Montage</th>
+                <th>Soudure</th>
+                <th>Montage/Ajustage</th>
+                <th>Peinture</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ avancement.get_decoupe_cn_display }}</td>
+                <td>{{ avancement.get_debit_display }}</td>
+                <td>{{ avancement.get_montage_display }}</td>
+                <td>{{ avancement.get_soudure_display }}</td>
+                <td>{{ avancement.get_ajustage_montage_display }}</td>
+                <td>{{ avancement.get_peinture_display }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<br>
+<div class="container">
+    <h2>Pieces</h2>
+    {% if perms.suivi.add_pieces %}
+        <a class="btn btn-outline-primary" href="{% url 'createPiece' sousEnsemble.id %}">Ajouter une pièce</a>
+    {% endif %}
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Numero</th>
+                <th>Nom</th>
+                <th>Quantite</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for piece in pieces %}
+            <tr>
+                <td>{{ piece.numero }}</td>
+                <td>{{ piece.nom }}</td>
+                <td>{{ piece.quantite }}</td>
+                <td><a class="btn btn-outline-primary" href="{% url 'piece' piece.id %}">Voir</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

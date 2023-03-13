@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+
+        <h1>Affaire: {{affaire.numero}} - {{affaire.chantier}}</h1>
+
+    </div>
+    <div class="d-flex justify-content-center">
+            {% if perms.suivi.change_affaires %}
+            <a class="btn btn-outline-warning" href="{% url 'editAffaire' affaire.id %}">Modifier l'affaire</a>
+            {% endif %}
+            {% if perms.suivi.delete_affaires %}
+            <a class="btn btn-outline-danger" href="{% url 'deleteAffaire' affaire.id %}">Supprimer l'affaire</a>
+            {% endif %}
+        
+    </div>
+</div>
+        <br>
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <p><b>Fabrication:</b> {{affaire.fabrication}}</p>
+    </div>
+    <div class="d-flex justify-content-center">
+        <p><b>Adresse de facturation:</b> {{affaire.adresse_facturation}}</p>
+    </div>
+
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <h2>Chercher une piece</h2>
+    </div>
+
+    <div class="row">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <table style="display:none">
+                {{ view.formset.empty_form }}
+            </table>
+
+            <table>
+                {{ view.formset }}
+            </table>
+
+            
+            <input class="btn btn-primary" type="submit" value="Rechercher">
+        </form>
+    </div>
+    
+    <div class="row"><br><p> </p></div>
+</div>
+<br>
+
+<div class="container">
+        <h2>Factures</h2>
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Numero</th>
+                    <th>Fournisseur</th>
+                    <th>Type</th>
+                    <th>Montant</th>
+                    <th>Attribution budget</th>
+                    <th>Lien</th>
+                    {% if perms.suivi.change_factures %}
+                    <th>Modifier</th>
+                    {% endif %}
+                    {% if perms.suivi.delete_factures %}
+                    <th>Supprimer</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for facture in factures %}
+                <tr>
+                    <td><a href="{% url 'facture' facture.id %}">{{facture.numero}}</a></td>
+                    <td>{{facture.fournisseur}}</td>
+                    <td>{{facture.type}}</td>
+                    <td>{{facture.montant}}</td>
+                    <td>{{facture.attribution_budget}}</td>
+                    <td>{{facture.facture}}</td>
+                    {% if perms.suivi.change_factures %}
+                    <td><a class="btn btn-outline-warning" href="{% url 'editFacture' facture.id %}">Modifier</a></td>
+                    {% endif %}
+                    {% if perms.suivi.delete_factures %}
+                    <td><a class="btn btn-outline-danger" href="{% url 'deleteFacture' facture.id %}">Supprimer</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if perms.suivi.add_factures %}
+        <a class="btn btn-outline-primary" href="{% url 'createFacture' affaire.id %}">Créer une facture</a>
+        {% endif %}
+</div>
+<div class="container">
+            
+        <br>
+        <h2>Camions</h2>
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Identifiant</th>
+                    <th>Transporteur</th>
+                    <th>Poids</th>
+                    <th>Capacite</th>
+                    <th>Date de livraison</th>
+                    <th>Date de depart</th>
+                    {% if perms.suivi.change_camions %}
+                    <th>Modifier</th>
+                    {% endif %}
+                    {% if perms.suivi.delete_camions %}
+                    <th>Supprimer</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for camion in camions %}
+                <tr>
+                    <td><a class="btn btn-outline-primary" href="{% url 'camion' camion.id %}">{{camion.identifiant}}</a></td>
+                    <td>{{camion.transporteur}}</td>
+                    <td>{{camion.poids}}</td>
+                    <td>{{camion.capacite}}</td>
+                    <td>{{camion.date_livraison}}</td>
+                    <td>{{camion.date_depart}}</td>
+                    {% if perms.suivi.change_camions %}
+                    <td><a class="btn btn-outline-warning" href="{% url 'editCamion' camion.id %}">Modifier</a></td>
+                    {% endif %}
+                    {% if perms.suivi.delete_camions %}
+                    <td><a class="btn btn-outline-danger" href="{% url 'deleteCamion' camion.id %}">Supprimer</a></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if perms.suivi.add_camions %}
+        <a class="btn btn-outline-primary" href="{% url 'createCamion' affaire.id %}">Créer camion</a>
+        {% endif %}
+        <br>
+</div>
+<div class="container">
+
+        <br>
+        <h2>Livraison</h2>
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Adresse</th>
+                    <th scope="col">Contact</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{affaire.name_1}}</td>
+                    <td>{{affaire.adresse_livraison_1}}</td>
+                    <td>{{affaire.contact_1}}</td>
+                </tr>
+                <tr>
+                    <td>{{affaire.name_2}}</td>
+                    <td>{{affaire.adresse_livraison_2}}</td>
+                    <td>{{affaire.contact_2}}</td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+<div class="container">
+        
+    <br>
+        <h2>budget</h2>
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Budget total</th>
+                    <th>Budget matiere</th>
+                    <th>Budget hydraulique</th>
+                    <th>Budget mecanique</th>
+                    <th>Budget heures</th>
+                    <th>Lieu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{affaire.budget_total}}</td>
+                    <td>{{affaire.budget_matiere}}</td>
+                    <td>{{affaire.budget_hydraulique}}</td>
+                    <td>{{affaire.budget_mecanique}}</td>
+                    <td>{{affaire.budget_heures}}</td>
+                    <td>{{affaire.lieu_fab}}</td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+
+<div class="container">
+    <h2>Commandes</h2>
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Fournisseur</th>
+                <th>Devis</th>
+                <th>Date de commande</th>
+                <th>Date de reception</th>
+                <th>Statut de livraison</th>
+                {% if perms.suivi.change_commandes %}
+                <th>Modifier</th>
+                {% endif %}
+                {% if perms.suivi.delete_commandes %}
+                <th>Supprimer</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for commande in commandes %}
+            <tr>
+                <td>{{commande.fournisseur}}</td>
+                <td>{{commande.devis}}</td>
+                <td>{{commamde.date_commande}}</td>
+                <td>{{commande.date_reception}}</td>
+                <td>{{commande.statut}}</td>
+                {% if perms.suivi.change_commandes %}
+                <td><a class="btn btn-outline-warning" href="{% url 'editCommande' commande.id %}">Modifier</a></td>
+                {% endif %}
+                {% if perms.suivi.delete_commandes %}
+                <td><a class="btn btn-outline-danger" href="{% url 'deleteCommande' commande.id %}">Supprimer</a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if perms.suivi.add_commandes %}
+    <a class="btn btn-outline-primary" href="{% url 'createCommande' affaire.id %}">Créer une commande</a>
+    {% endif %}
+    
+</div>
+
+<div class="container">
+        
+    <br>
+        <h2>Outils</h2>
+        {% if perms.suivi.add_outils %}
+        <a class="btn btn-outline-primary" href="{% url 'createOutil' affaire.id %}">Créer un outil</a>
+        {% endif %}
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Numero</th>
+                    <th>Quantite</th>
+                    <th>Options</th>
+                    <th>Date offre</th>
+                    <th>Version offre</th>
+                    <th>Lien offre</th>
+                    <th>Date livraison</th>
+                    <th>Lien outil</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for outil in outils %}
+                <tr>
+                    <td>{{outil.numero}}</td>
+                    <td>{{outil.quantite}}</td>
+                    <td>{{outil.option}}</td>
+                    <td>{{outil.date_offre}}</td>
+                    <td>{{outil.version_offre}}</td>
+                    <td>{{outil.lien_offre}}</td>
+                    <td>{{outil.date_livraison}}</td>
+                    <td><a class="btn btn-primary" href="{% url 'outil' outil.id %}">Voir</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</div>
+
+{% endblock %}

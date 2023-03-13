@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h1>Piece {{piece.numero}} - {{piece.nom}}</h1>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h2><a href="{% url 'affaire' affaire.id %}">Affaire {{affaire.numero}} - {{affaire.chantier}}</a></h2>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h2><a href="{% url 'outil' outil.id %}">Outil {{outil.numero}} - {{outil.nom}}</a></h2>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h2><a href="{% url 'ensemble' ensemble.id %}">Ensemble {{ensemble.numero}} - {{ensemble.nom}}</a></h2>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h2><a href="{% url 'sousEnsemble' sousEnsemble.id %}">Sous-ensemble {{sousEnsemble.numero}}</a></h2>
+    </div>
+    <div class="d-flex justify-content-center">
+        {% if perms.suivi.change_pieces %}
+        <a class="btn btn-outline-warning" href="{% url 'editPiece' piece.id %}">Modifier la piece</a> 
+        {% endif %}
+        {% if perms.suivi.delete_pieces %}
+        <a class="btn btn-outline-danger" href="{% url 'deletePiece' piece.id %}">Supprimer la piece</a>
+        {% endif %}
+    </div>
+</div>
+<div class="container">
+        <h2>Recapitulatif</h2>
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Numero</th>
+                    <th>Quantite</th>
+                    <th>Poids unitaire</th>
+                    <th>Couleur</th>
+                    <th>Indice complexite</th>
+                    <th>Heures fabrication</th>
+                    <th>Cout unitaire</th>
+                    <th>Of</th>
+                    <th>Revision</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{piece.nom}}</td>
+                    <td>{{piece.numero}}</td>
+                    <td>{{piece.quantite}}</td>
+                    <td>{{piece.poids_unitaire}}</td>
+                    <td>{{piece.couleur}}</td>
+                    <td>{{piece.indice_complexite}}</td>
+                    <td>{{piece.heures_fabrication}}</td>
+                    <td>{{piece.cout_unitaire}}</td>
+                    <td>{{piece.of}}</td>
+                    <td>{{piece.revision}}</td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+{% endblock %}

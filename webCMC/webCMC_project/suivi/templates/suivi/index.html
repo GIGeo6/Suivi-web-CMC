@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h1>Bienvenue sur l'outil de suivi CMC</h1>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-primary" href="{% url 'rechercheAffaire' %}">Chercher une affaire</a>
+        {% if perms.suivi.add_affaires %}
+        <a class="btn btn-success" href="{% url 'createAffaire' %}">Créer une affaire</a>
+        {% endif %}
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-primary" href="{% url 'rechercheCommande' %}">Chercher une commande</a>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-primary" href="{% url 'rechercheCamion' %}">Chercher un camion</a>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-primary" href="{% url 'rechercheFacture' %}">Chercher une facture</a>
+    </div>
+</div>
+
+
+
+{% endblock %}

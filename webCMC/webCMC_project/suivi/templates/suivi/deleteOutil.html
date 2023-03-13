@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+
+    <div class="d-flex justify-content-center">
+        <h2>Confirmation</h2>
+    </div>
+    <br>
+
+    <div class="d-flex justify-content-center">
+        <p>Êtes-vous sûr de vouloir supprimer l'outil {{outil.numero}} - {{outil.nom}}</p>
+    </div>
+    
+    <div class="d-flex justify-content-center">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_ul }}
+            <input class="btn btn-danger" type="submit" value="Oui, supprimer">
+        </form>
+    </div>
+    
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-outline-warning" href="{% url 'outil' outil.id %}">Non, retour à la page précédente</a>
+    </div>
+</div>
+
+{% endblock %}

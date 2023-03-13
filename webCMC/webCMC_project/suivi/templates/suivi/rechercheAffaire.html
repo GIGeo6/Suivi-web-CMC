@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<br>
+<div class="container">
+    <div class="d-flex justify-content-center ">
+        <h1>Chercher une affaire</h1>
+    </div>
+
+    <div class="d-flex justify-content-center ">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <table style="display:none">
+                {{ view.formset.empty_form }}
+            </table>
+
+            <table>
+                {{ view.formset }}
+            </table>
+            
+            <input class="btn btn-primary" type="submit" value="Rechercher">
+        </form>
+    </div>
+    <br>
+    <br>
+    <div class="d-flex justify-content-center ">
+        {% if perms.suivi.add_affaires %}
+        <a class="btn btn-success" href="{% url 'createAffaire' %}">Créer une nouvelle affaire</a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+
+{{ form.media }}
+
+<script>
+    (function($) {
+        $('#add-form').click(function() {
+            var index = $('#id_inline_test_models-TOTAL_FORMS').val()
+            var newTable = $('#id_inline_test_models-__prefix__-DELETE').parents('table').clone()
+            newTable.find(':input').each(function() {
+                for (attr of ['name', 'id'])
+                    $(this).attr(
+                        attr,
+                        $(this).attr(attr).replace('__prefix__', index)
+                    )
+            })
+            newTable.insertBefore($(this))
+            $('#id_inline_test_models-TOTAL_FORMS').val(
+                parseInt($('#id_inline_test_models-TOTAL_FORMS').val()) + 1
+            )
+            newTable.slideDown()
+        })
+    })($)
+</script>
+
+{% endblock %}

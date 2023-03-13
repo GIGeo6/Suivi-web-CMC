@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h2>Lier la commande {{commande.numero}}</h2>
+    </div>
+</div>
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <table style="display:none">
+                {{ view.formset.empty_form }}
+            </table>
+
+            <table>
+                {{ view.formset }}
+            </table>
+
+            <input class="btn btn-primary" type="submit" value="Rechercher">
+        </form>
+    </div>
+</div>
+{% endblock}

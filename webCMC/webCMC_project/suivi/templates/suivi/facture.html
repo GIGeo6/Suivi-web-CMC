@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h1>Facture {{facture.numero}} - {{facture.fournisseur}}</h1>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <h2><a href="{% url 'affaire' facture.id_affaires.id %}">Affaire {{affaire.numero}} - {{affaire.chantier}}</a></h2>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        {% if perms.suivi.change_factures %}
+        <a class="btn btn-outline-success" href="{% url 'lierFacture' facture.id %}">Lier une facture</a>
+        <a class="btn btn-outline-warning" href="{% url 'editFacture' facture.id %}">Modifier la facture</a>
+        {% endif %}
+        {% if perms.suivi.delete_factures %}
+        <a class="btn btn-outline-danger" href="{% url 'deleteFacture' facture.id %}">Supprimer la facture</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container">
+    <h2>Details</h2>
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Numero</th>
+                <th>Fournisseur</th>
+                <th>Type</th>
+                <th>Montant</th>
+                <th>Attribution budget</th>
+                <th>Lien</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{facture.numero}}</td>
+                <td>{{facture.fournisseur}}</td>
+                <td>{{facture.type}}</td>
+                <td>{{facture.montant}}</td>
+                <td>{{facture.attribution_budget}}</td>
+                <td>{{facture.facture}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

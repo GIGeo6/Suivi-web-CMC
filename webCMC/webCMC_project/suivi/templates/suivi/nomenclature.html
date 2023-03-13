@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h1>Nomenclature <a href="{% url 'outil' outil.id %}">outil {{outil.numero}}</a></h1>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h2></h2>
+    </div>
+    <div class="d-flex justify-content-center">
+        <h2>Quantité: {{outil.quantite}}</h2>
+    </div>
+</div>
+
+<div class="container">
+    <a class="btn btn-primary" href="{% url 'createNomenclature' affaire.id outil.id %}">Créer nomenclature</a>
+    <br>
+    {% for ensemble,avancement in dictionnaire_avancement.items %}
+        <h2>Ensemble {{ensemble.nom}} - {{ensemble.numero}}</h2>
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Débit</th>
+                    <th>Montage</th>
+                    <th>Soudure</th>
+                    <th>Ajustage/Montage</th>
+                    <th>Peinture</th>
+                    <th>Avancement</th>
+                    <th>Zone colisage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{avancement.debit}}</td>
+                    <td>{{avancement.montage}}</td>
+                    <td>{{avancement.soudure}}</td>
+                    <td>{{avancement.ajustage}}</td>
+                    <td>{{avancement.peinture}}</td>
+                    <td>{{avancement.avancement}}</td>
+                    <td>{{avancement.colisage}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    {% endfor %}
+
+    {% for ensemble,sous_ensemble in dictionnaire_SE.items %}
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Pièce</th>
+                    <th>N° de plan</th>
+                    <th>Quantité</th>
+                    <th>Poids unitaire</th>
+                    <th>Poids total</th>
+                    <th>Couleur</th>
+                    <th>Indice de complexité</th>
+                    <th>Heures de fab</th>
+                    <th>Coût/pièce</th>
+                    <th>OF</th>
+                    <th>Revision</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td>{{sous_ensemble.numero}}</td>
+                        <td>{{sous_ensemble.plan}}</td>
+                        <td>{{sous_ensemble.quantite}}</td>
+                        <td>{{sous_ensemble.poids_unitaire}}</td>
+                        <td>
+                            {% if sous_ensemble.poids and sous_ensemble.quantite %}
+                                {% widthratio sous_ensemble.poids 1 sous_ensemble.quantite %}
+                            {% endif %}
+                        </td>
+                        <td>{{sous_ensemble.couleur_peinture}}</td>
+                        <td>{{sous_ensemble.indice_complexite}}</td>
+                        <td>{{sous_ensemble.heures_fabrication}}</td>
+                        <td>{{sous_ensemble.cout_unitaire}}</td>
+                        <td>{{sous_ensemble.of}}</td>
+                        <td>{{sous_ensemble.revision}}</td>
+                        </tr>
+            </tbody>
+        </table>
+
+    {% endfor %}
+</div>
+{% endblock %}
