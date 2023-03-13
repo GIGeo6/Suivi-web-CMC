@@ -113,8 +113,8 @@ def outil(request,id):
     dictionnaire_SE = {}
     dictionnaire_E= {}
     for ensemble in ensembles:
-        avancement_E = AvancementEnsemble.objects.get(id_ensembles = ensemble)
-        sous_ensemble = SousEnsemble.objects.filter(id_ensemble = ensemble)
+        avancement_E = AvancementEnsemble.objects.filter(id_ensembles = ensemble.id)
+        sous_ensemble = SousEnsemble.objects.filter(id_ensemble = ensemble.id)
         dictionnaire_SE[ensemble] = sous_ensemble
         dictionnaire_E[ensemble] = avancement_E
 
@@ -127,7 +127,7 @@ def ensemble(request,id):
     outil = Outils.objects.get(id=ensemble.id_outils.id)
     sousEnsembles = SousEnsemble.objects.filter(id_ensemble = ensemble.id)
     pieces = Pieces.objects.filter(id_ensemble=ensemble.id)
-    avancement = AvancementEnsemble.objects.get(id_ensembles = ensemble.id)
+    avancement = AvancementEnsemble.objects.filter(id_ensembles = ensemble)
     return render(request, 'suivi/ensemble.html',{'ensemble':ensemble, 'sousEnsembles':sousEnsembles ,'outil':outil,'affaire':affaire, 'pieces':pieces, 'avancement':avancement})
 
 @login_required
