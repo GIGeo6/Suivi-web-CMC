@@ -6,4 +6,8 @@ webCMC_project/__pycache__/
 suivi/migrations/__pycache__/
 webCMC_project/__init__.py
 webCMC_project/wsgi.py
+<<<<<<< HEAD
 manage.py
+=======
+manage.py
+>>>>>>> 61fb2ae (server setup)
