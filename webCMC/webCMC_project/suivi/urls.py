@@ -22,6 +22,7 @@ urlpatterns = [
     path('editCamion/<int:id>/', views.editCamion, name='editCamion'),
     path('editFacture/<int:id>/', views.editFacture, name='editFacture'),
     path('editCommande/<int:id>/', views.editCommande, name='editCommande'),
+    path('editContact/<int:id>/', views.editContact, name='editContact'),
 
     path('rechercheAffaire/', views.rechercheAffaire, name='rechercheAffaire'),
     path('rechercheCamion/', views.rechercheCamion, name='rechercheCamion'),
@@ -37,6 +38,7 @@ urlpatterns = [
     path('createNomenclature/', views.createNomenclature, name='createNomenclature'),
     path('createPiece/<int:id_affaire>/<int:id_outil>/<int:id_ensemble>', views.createPiece, name='createPiece'),
     path('createOutil/<int:id_affaires>', views.createOutil, name='createOutil'),
+    path('createContact/<int:id_affaires>', views.createContact, name='createContact'),
 
     path('deleteAffaire/<int:id>', views.deleteAffaire, name='deleteAffaire'),
     path('deleteOutil/<int:id>', views.deleteOutil, name='deleteOutil'),
@@ -44,4 +46,5 @@ urlpatterns = [
     path('deletePiece/<int:id>', views.deletePiece, name='deletePiece'),
     path('deleteFacture/<int:id>', views.deleteFacture, name='deleteFacture'),
     path('deleteCamion/<int:id>', views.deleteCamion, name='deleteCamion'),
+    path('deleteContact/<int:id>', views.deleteContact, name='deleteContact'),
 ]

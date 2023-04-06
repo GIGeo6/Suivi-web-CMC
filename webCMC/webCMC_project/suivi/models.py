@@ -216,3 +216,9 @@ class PieceEnsemble(models.Model):
     id_ensemble = models.ForeignKey(Ensembles, on_delete=models.CASCADE, null=True)
     id_sousensemble = models.ForeignKey(SousEnsemble, on_delete = models.CASCADE, null = True)
     type = models.CharField(max_length=63, null = True)
+
+class Contact(models.Model):
+    name = models.CharField(max_length=63,null=True)
+    telephone = models.CharField(max_length=63, null=True)
+    email = models.CharField(max_length=63, null=True)
+    id_affaires = models.ForeignKey(Affaires, on_delete = models.CASCADE)

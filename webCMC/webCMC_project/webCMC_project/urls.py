@@ -60,6 +60,7 @@ urlpatterns = [
     path('suivi/editBudget/<int:id>/', suivi.editBudget, name='editBudget'),
     path('suivi/editAvancementSE/<int:id>', suivi.editAvancementSE, name='editAvancementSE'),
     path('suivi/editChargementCamion/<int:id>', suivi.editChargementCamion, name="editChargementCamion"),
+    path('suivi/editContact/<int:id>/', suivi.editContact, name='editContact'),
 
     path('suivi/lierCommande/<int:id>', suivi.lierCommande, name='lierCommande'),
     path('suivi/lierFacture/<int:id>', suivi.lierFacture, name='lierFacture'),
@@ -79,6 +80,7 @@ urlpatterns = [
     path('suivi/createPiece/<int:id_sousEnsemble>/', suivi.createPiece, name='createPiece'),
     path('suivi/createOutil/<int:id_affaires>/', suivi.createOutil, name='createOutil'),
     path('suivi/createSousEnsemble/<int:id_ensembles>/', suivi.createSousEnsemble, name='createSousEnsemble'),
+    path('suivi/createContact/<int:id_affaires>/', suivi.createContact, name='createContact'),
 
     path('suivi/deleteAffaire/<int:id>/', suivi.deleteAffaire, name='deleteAffaire'),
     path('suivi/deleteOutil/<int:id>/', suivi.deleteOutil, name='deleteOutil'),
@@ -89,4 +91,5 @@ urlpatterns = [
     path('suivi/deleteCamion/<int:id>/', suivi.deleteCamion, name='deleteCamion'),
     path('suivi/deleteCommande/<int:id>/', suivi.deleteCommande, name='deleteCommande'),
     path('suivi/deleteChargementCamion/<int:id>', suivi.deleteChargementCamion, name='deleteChargementCamion'),
+    path('suivi/deleteContact/<int:id>/', suivi.deleteContact, name='deleteContact'),
 ]

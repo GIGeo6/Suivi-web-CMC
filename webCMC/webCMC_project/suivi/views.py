@@ -76,6 +76,7 @@ def affaire(request,id):
     factures = Factures.objects.filter(id_affaires=id)
     budget = Budget.objects.filter(id_affaires = id)
     commandes = Commandes.objects.filter(id_affaires = id).order_by('fournisseur')
+    contacts = Contact.objects.filter(id_affaires = id)
 
     if request.method == 'POST':
         form = SearchPieceForm(request.POST)
@@ -99,10 +100,10 @@ def affaire(request,id):
                         sousEnsemble = SousEnsemble.objects.get(id = qs.id_sousensemble.id)
                         return redirect('sousEnsemble', sousEnsemble.id)
 
-        return render(request, 'suivi/affaire.html',{'affaire':affaire, 'outils':outils, 'ensembles': ensembles, 'camions': camions, 'commandes':commandes, 'factures':factures, 'budget':budget, 'form':form})
+        return render(request, 'suivi/affaire.html',{'affaire':affaire, 'outils':outils, 'ensembles': ensembles, 'camions': camions, 'commandes':commandes, 'factures':factures, 'budget':budget, 'contacts':contacts, 'form':form})
     else:
         form = SearchPieceForm(initial={'id_affaires': affaire.id})
-    return render(request,'suivi/affaire.html',{'affaire':affaire,'outils':outils,'ensembles':ensembles,'camions':camions,'factures':factures, 'commandes':commandes, 'budget':budget, 'form':form})
+    return render(request,'suivi/affaire.html',{'affaire':affaire,'outils':outils,'ensembles':ensembles,'camions':camions,'factures':factures, 'commandes':commandes, 'budget':budget, 'contacts':contacts, 'form':form})
 
 @login_required
 def outil(request,id):
@@ -767,6 +768,39 @@ def editBudget(request, id):
     return render(request,'suivi/editBudget.html', {'form':form, 'budget':budget})
 
 @login_required
+@permission_required('suivi.change_contact', raise_exception=True)
+def editContact(request, id):
+    contact = Contact.objects.get(id=id)
+
+    if request.method == 'POST':
+        form = EditContactForm(request.POST, instance = contact)
+        if form.is_valid():
+            contact = form.save()
+            return redirect('affaire', contact.id_affaires.id)
+        
+    form = EditContactForm(instance = contact)
+
+    return render(request,'suivi/editContact.html', {'form':form, 'contact':contact})
+
+@login_required
+@permission_required('suivi.add_contact', raise_exception=True)
+def createContact(request, id):
+    affaire= Affaires.objects.get(id=id)
+
+    if request.method == 'POST':
+        form = EditContactForm(request.POST)
+        if form.is_valid():
+            contact = form.save(commit=False)
+            contact.id_affaires = affaire
+            form.save()
+
+            return redirect('affaire', affaire.id)
+        
+    form = EditContactForm()
+
+    return render(request,'suivi/createContact.html', {'form':form})
+
+@login_required
 @permission_required('suivi.change_avancementsousensemble', raise_exception=True)
 def editAvancementSE(request, id):
     avancementSE = AvancementSousEnsemble.objects.get(id = id)
@@ -931,6 +965,18 @@ def deleteCommande(request,id):
         return redirect('affaire', affaire.id)
 
     return render(request,'suivi/deleteCommande.html',{'commande':commande})
+
+@login_required
+@permission_required('suivi.delete_contact', raise_exception=True)
+def deleteContact(request,id):
+    contact = Contact.objects.get(id=id)
+    affaire = contact.id_affaires
+
+    if request.method == 'POST':
+        contact.delete()
+        return redirect('affaire',affaire.id)
+    
+    return render(request,'suivi/deleteContact.html',{'contact':contact})
 
 class AffaireAutocomplete(autocomplete.Select2QuerySetView):
 

@@ -108,6 +108,11 @@ class EditAffaireForm(forms.ModelForm):
         model = Affaires
         fields = '__all__'
 
+class CreateAffaireForm(forms.Form):
+    class Meta:
+        model = Affaires
+        fields = ['numero','chantier']
+
 class EditOutilForm(forms.ModelForm):
     class Meta:
         model = Outils
@@ -202,3 +207,8 @@ class EditSousEnsembleForm(forms.ModelForm):
     class Meta:
         model = SousEnsemble
         exclude = ['id_affaires','id_outils','id_ensemble']
+
+class EditContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = '__all__'
