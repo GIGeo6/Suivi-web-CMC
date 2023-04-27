@@ -173,6 +173,16 @@ class AddChargementCamionForm(forms.ModelForm):
         model = Chargementcamions
         exclude = ['id_camions','id_pieces','id_affaires','poids_total','identifiant_camion']
 
+class CreateAvancementPieceForm(forms.ModelForm):
+    class Meta:
+        model = AvancementPiece
+        exclude = ['id_piece','id_sous_ensemble']
+
+class EditAvancementPieceForm(forms.ModelForm):
+    class Meta:
+        model = AvancementPiece
+        exclude = ['id_piece','id_sous_ensemble']
+
 class CreateAvancementSousEnsembleForm(forms.ModelForm):
     class Meta:
         model = AvancementSousEnsemble

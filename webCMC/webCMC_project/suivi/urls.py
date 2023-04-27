@@ -12,6 +12,9 @@ urlpatterns = [
     path('piece/<int:id>/', views.piece, name='piece'),
     path('commande/<int:id>/', views.commande, name='commande'),
     path('suivi/nomenclature/<int:id>/', views.nomenclature, name='nomenclature'),
+    path('suivi/ensembleAvancement/<int:id>/', views.ensembleCrea, name='nomenclatureAvancement'),
+    path('suivi/ensembleCrea/<int:id>/', views.ensembleCrea, name='nomenclatureCrea'),
+    path('suivi/ensemblePrepa/<int:id>/', views.ensembleCrea, name='nomenclaturePrepa'),
 
     path('editAffaire/<int:id>/', views.editAffaire, name='editAffaire'),
     path('editOutil/<int:id>/', views.editOutil, name='editOutil'),

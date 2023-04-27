@@ -1,0 +1,340 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-center">
+
+        <h1>Affaire: {{affaire.numero}} - {{affaire.chantier}}</h1>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h2>Nomenclature - Avancement</h2>
+    </div>
+    <div>
+        <a class="btn btn-primary" href="{% url 'ensembleCrea' ensemble.id 'Crea' %}">Nomenclature - Creation</a>
+    </div>
+    <div>
+        <a class="btn btn-primary" href="{% url 'ensembleCrea' ensemble.id 'Prepa' %}">Nomenclature - Preparation</a>
+    </div>
+    
+</div>
+
+<div class="container">
+    <div>
+        <h3>{{ensemble.numero}} {{ensemble.nom}}</h3>
+    </div>
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Nom</th>
+                <th>SE</th>
+                <th>Numero</th>
+                <th>Qte</th>
+                <th>Usinage</th>
+                <th>Debit scie</th>
+                <th>Debit CN</th>
+                <th>Fab</th>
+                <th>Ajustage</th>
+                <th>Peinture</th>
+                <th>Livraison</th>
+                {% if perms.suivi.change_avancement %}
+                <th>Modifier</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for sousEnsemble in sousEnsembles %}
+                <tr>
+                    <td>{{sousEnsemble.nom}}</td>
+                    <td>{{sousEnsemble.numero}}</td>
+                    <td>/</td>
+                    <td>{{sousEnsemble.quantite}}</td>
+                    {% if dicoAv[sousEnsemble].usinage == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].usinage == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].usinage == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        
+                        {% if dicoAv[sousEnsemble].usinage == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].usinage == 'EC' %}
+                            <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].usinage == 'TR' %}
+                            <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if dicoAv[sousEnsemble].debitscie == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].debitscie == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].debitscie == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        {% if dicoAv[sousEnsemble].debitscie == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].debitscie == 'EC' %}
+                            <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].debitscie == 'TR' %}
+                            <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if dicoAv[sousEnsemble].debitcn == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].debitcn == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].debitcn == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        {% if dicoAv[sousEnsemble].debitcn == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].debitcn == 'EC' %}
+                        <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].debitcn == 'TR' %}
+                        <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if dicoAv[sousEnsemble].fabrication == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].fabrication == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].fabrication == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        {% if dicoAv[sousEnsemble].fabrication == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].fabrication == 'EC' %}
+                            <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].fabrication == 'TR' %}
+                            <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if dicoAv[sousEnsemble].ajustage == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].ajustage == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].ajustage == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        {% if dicoAv[sousEnsemble].ajustage == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].ajustage == 'EC' %}
+                            <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].ajustage == 'TR' %}
+                            <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if dicoAv[sousEnsemble].peinture == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].peinture == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].peinture == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        {% if dicoAv[sousEnsemble].peinture == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].peinture == 'EC' %}
+                            <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].peinture == 'TR' %}
+                            <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if dicoAv[sousEnsemble].livraison == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].livraison == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[sousEnsemble].livraison == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        {% if dicoAv[sousEnsemble].livraison == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].livraison == 'EC' %}
+                            <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[sousEnsemble].livraison == 'TR' %}
+                            <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if perms.suivi.change_avancement %}
+                    <td><a class="btn btn-outline-warning" href="{% url 'editAvancementSE' dicoAv[sousEnsemble].id %}">Modifier</a></td>
+                    {% endif %}
+                </tr>
+                {% for piece in dicoSE[sousEnsemble] %}
+                    <tr>
+                    <td>{{piece.nom}}</td>
+                    <td>{{sousEnsemble.numero}}</td>
+                    <td>{{piece.numero}}</td>
+                    <td>{{piece.quantite}}</td>
+                    {% if dicoAv[piece].usinage == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[piece].usinage == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[piece].usinage == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        {% if dicoAv[piece].usinage == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].usinage == 'EC' %}
+                            <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].usinage == 'TR' %}
+                            <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if dicoAv[piece].debitscie == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[piece].debitscie == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[piece].debitscie == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        {% if dicoAv[piece].debitscie == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].debitscie == 'EC' %}
+                            <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].debitscie == 'TR' %}
+                            <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if dicoAv[piece].debitcn == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[piece].debitcn == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[piece].debitcn == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        {% if dicoAv[piece].debitcn == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].debitcn == 'EC' %}
+                        <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].debitcn == 'TR' %}
+                        <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if dicoAv[piece].fabrication == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[piece].fabrication == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[piece].fabrication == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        {% if dicoAv[piece].fabrication == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].fabrication == 'EC' %}
+                            <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].fabrication == 'TR' %}
+                            <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if dicoAv[piece].ajustage == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[piece].ajustage == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[piece].ajustage == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        {% if dicoAv[piece].ajustage == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].ajustage == 'EC' %}
+                            <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].ajustage == 'TR' %}
+                            <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if dicoAv[piece].peinture == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[piece].peinture == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[piece].peinture == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        {% if dicoAv[piece].peinture == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].peinture == 'EC' %}
+                            <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].peinture == 'TR' %}
+                            <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if dicoAv[piece].livraison == '0' %}
+                        <td style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if dicoAv[piece].livraison == 'EC' %}
+                        <td style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if dicoAv[piece].livraison == 'TR' %}
+                        <td style="background-color: #5FBD16;">
+                    {% endif %}
+                        {% if dicoAv[piece].livraison == '0' %}
+                            <img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].livraison == 'EC' %}
+                            <img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
+                        {% endif %}
+                        {% if dicoAv[piece].livraison == 'TR' %}
+                            <img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                        {% endif %}
+                    </td>
+                    {% if perms.suivi.change_avancement %}
+                    <td><a class="btn btn-outline-warning" href="{% url 'editAvancement' piece.id %}">Modifier</a></td>
+                    {% endif %}
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

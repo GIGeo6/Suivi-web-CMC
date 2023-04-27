@@ -152,6 +152,24 @@ def piece(request,id):
     return render(request, 'suivi/piece.html',{'piece':piece,'ensemble':ensemble,'outil':outil,'affaire':affaire, 'sousEnsemble':sousEnsemble})
 
 @login_required
+def ensembleCrea(request,id,mode):
+    ensemble = Ensembles.objects.get(id = id)
+    sousEnsembles = PieceEnsemble.objects.filter(id_ensemble = id, type='sous-ensemble')
+    dicoSE = {}
+    dicoTps = {}
+    dicoAv= {}
+    page = 'suivi/ensemble'+mode+'.html'
+    for sousEnsemble in sousEnsembles:
+        pieces = Pieces.objects.filter(id_ensemble = id, id_sousensemble=sousEnsemble, type='piece')
+        dicoSE[sousEnsemble] = pieces
+        dicoAv[sousEnsemble] = AvancementEnsemble.objects.get(id_sousensemble= sousEnsemble.id)
+        for piece in pieces:
+            dicoTps[piece] = piece.poids_unitaire / (piece.heures_fabrication * piece.heures_soudure)
+            dicoAv[piece] = AvancementPiece.objects.get(id_piece = piece.id)
+
+    return render(request,page,{'ensemble':ensemble,'sousEnsembles':sousEnsembles,'dicoSE':dicoSE,'dicoAv':dicoAv})
+
+@login_required
 def nomenclature(request,id):
     nomenclature = Nomenclature.objects.get(id = id)
     affaire = Affaires.objects.get(id = nomenclature.id_affaires.id)
@@ -457,6 +475,8 @@ def editSousEnsemble(request,id):
             sousEnsemble = form.save()
 
             avancementSousEnsemble.numero_sousensemble = sousEnsemble.numero
+            avancementSousEnsemble.quantite = sousEnsemble.quantite
+            avancementSousEnsemble.sym = sousEnsemble.sym
             avancementSousEnsemble.save()
 
             piece_ensemble.nom = sousEnsemble.nom
@@ -512,12 +532,17 @@ def createSousEnsemble(request,id_ensembles):
 def editPiece(request,id):
     piece = Pieces.objects.get(id=id)
     piece_ensemble = PieceEnsemble.objects.get(id_piece = id)
+    avancementPiece = AvancementPiece.object.get(id_piece = id)
     
     if request.method == 'POST':
         form = EditPieceForm(request.POST,instance=piece)
 
         if form.is_valid():
             piece = form.save()
+
+            avancementPiece.quantite = piece.quantite
+            avancementPiece.sym = piece.sym
+            avancementPiece.save()
 
             piece_ensemble.nom = piece.nom
             piece_ensemble.numero = piece.numero
@@ -533,12 +558,14 @@ def editPiece(request,id):
 @login_required
 @permission_required('suivi.add_pieces', raise_exception=True)
 def createPiece(request, id_sousEnsemble):
+    affaire = Affaires.objects.get(id = sousEnsemble.id_affaires.id)
+    outil = Outils.objects.get(id = sousEnsemble.id_outils.id)
+    ensemble = Ensembles.objects.get(id = sousEnsemble.id_ensemble.id)
+    sousEnsemble = SousEnsemble.objects.get(id=id_sousEnsemble)
+
     if request.method == 'POST':
-        sousEnsemble = SousEnsemble.objects.get(id=id_sousEnsemble)
+        
         form = EditPieceForm(request.POST)
-        affaire = Affaires.objects.get(id = sousEnsemble.id_affaires.id)
-        outil = Outils.objects.get(id = sousEnsemble.id_outils.id)
-        ensemble = Ensembles.objects.get(id = sousEnsemble.id_ensemble.id)
         
 
         if form.is_valid():
@@ -553,10 +580,13 @@ def createPiece(request, id_sousEnsemble):
             piece.id_sous_ensemble = sousEnsemble
             piece = form.save()
             pieces = Pieces.objects.get(id=piece.id)
+
             piece_ensemble = PieceEnsemble(nom = pieces.nom, numero = pieces.numero, id_piece = pieces, id_affaires = affaire, type = 'piece')
-            
             piece_ensemble.save()
 
+            avancement = AvancementPiece(id_piece = piece, id_sous_ensemble=sousEnsemble)
+            avancement.save()
+            
             return redirect('piece', piece.id)
     else:
         form = EditPieceForm()
@@ -858,6 +888,116 @@ def editAvancementSE(request, id):
         form = EditAvancementSousEnsembleForm(instance = avancementSE)
 
     return render(request, 'suivi/editAvancementSE.html', {'form':form, 'avancementSE':avancementSE, 'sousEnsemble':sousEnsemble})
+
+@login_required
+@permission_required('suivi.change_avancementpiece', raise_exception=True)
+def editAvancementPiece(request, id):
+    avancementPiece = AvancementPiece.objects.get(id = id)
+    piece = Pieces.objects.get(id = avancementPiece.id_piece.id)
+    sousEnsemble = SousEnsemble.objects.get(id = piece.id_sousensemble.id)
+    avancementSE = avancementSE.objects.get(id = sousEnsemble.id)
+    ensemble = Ensembles.objects.get(id = piece.id_ensemble.id)
+    avancementE = AvancementEnsemble.objects.get(id_ensembles = ensemble)
+
+    if request.method == 'POST':
+        form = EditAvancementPieceForm(request.POST, instance = avancementPiece)
+        
+        if form.is_valid():
+            avancementPiece = form.save()
+            avancements = AvancementPiece.objects.filter(id_sous_ensemble = sousEnsemble)
+            avancementsSE = AvancementSousEnsemble.objects.filter(id_ensemble = ensemble)
+            dico = {"debit":0, "montage":0, "soudure":0, "ajustage_montage": 0, "peinture":0, "total":0}
+            dicoSE = {"debit":0, "montage":0, "soudure":0, "ajustage_montage": 0, "peinture":0, "total":0}
+            
+            for i in avancements:
+                if i.debit == 'EC':
+                    dico["debit"] = dico["debit"] + 1
+                if i.debit == 'TR':
+                    dico["debit"] = dico["debit"] + 2
+
+                if i.montage == 'EC':
+                    dico["montage"] = dico["montage"] + 1
+                if i.montage == 'TR':
+                    dico["montage"] = dico["montage"] + 2
+
+                if i.soudure == 'EC':
+                    dico["soudure"] = dico["soudure"] + 1
+                if i.soudure == 'TR':
+                    dico["soudure"] = dico["soudure"] + 2
+
+                if i.ajustage_montage == 'EC':
+                    dico["ajustage_montage"] = dico["ajustage_montage"] + 1
+                if i.ajustage_montage == 'TR':
+                    dico["ajustage_montage"] = dico["ajustage_montage"] + 2
+
+                if i.peinture == 'EC':
+                    dico["peinture"] = dico["peinture"] + 1
+                if i.peinture == 'TR':
+                    dico["peinture"] = dico["peinture"] + 2
+
+                dico["total"] = dico["total"] + 2
+
+            avancementSE.debit = int((dico["debit"] / dico["total"]) * 100)
+            avancementSE.montage = int((dico["montage"] / dico["total"]) * 100)
+            avancementSE.soudure = int((dico["soudure"] / dico["total"]) * 100)
+            avancementSE.ajustage_montage = int((dico["ajustage_montage"] / dico["total"]) * 100)
+            avancementSE.peinture = int((dico["peinture"] / dico["total"]) * 100)
+            avancementSE.avancement_global = int((dico["debit"] + dico["montage"] + dico["soudure"] + dico["ajustage_montage"] + dico["peinture"]) * 100 / (5 * dico["total"]))
+            avancementSE.save()
+
+            for i in avancementsSE:
+                if i.debit == 'EC':
+                    dicoSE["debit"] = dicoSE["debit"] + 1
+                if i.debit == 'TR':
+                    dicoSE["debit"] = dicoSE["debit"] + 2
+
+                if i.montage == 'EC':
+                    dicoSE["montage"] = dicoSE["montage"] + 1
+                if i.montage == 'TR':
+                    dicoSE["montage"] = dicoSE["montage"] + 2
+
+                if i.soudure == 'EC':
+                    dicoSE["soudure"] = dicoSE["soudure"] + 1
+                if i.soudure == 'TR':
+                    dicoSE["soudure"] = dicoSE["soudure"] + 2
+
+                if i.ajustage_montage == 'EC':
+                    dicoSE["ajustage_montage"] = dicoSE["ajustage_montage"] + 1
+                if i.ajustage_montage == 'TR':
+                    dicoSE["ajustage_montage"] = dicoSE["ajustage_montage"] + 2
+
+                if i.peinture == 'EC':
+                    dicoSE["peinture"] = dicoSE["peinture"] + 1
+                if i.peinture == 'TR':
+                    dicoSE["peinture"] = dicoSE["peinture"] + 2
+
+                dicoSE["total"] = dicoSE["total"] + 2
+
+            avancementE.debit = int((dicoSE["debit"] / dicoSE["total"]) * 100)
+            avancementE.montage = int((dicoSE["montage"] / dicoSE["total"]) * 100)
+            avancementE.soudure = int((dicoSE["soudure"] / dicoSE["total"]) * 100)
+            avancementE.ajustage_montage = int((dicoSE["ajustage_montage"] / dicoSE["total"]) * 100)
+            avancementE.peinture = int((dicoSE["peinture"] / dicoSE["total"]) * 100)
+            avancementE.avancement_global = int((dicoSE["debit"] + dicoSE["montage"] + dicoSE["soudure"] + dicoSE["ajustage_montage"] + dicoSE["peinture"]) * 100 / (5 * dicoSE["total"]))
+            avancementE.save()
+            
+            return redirect('ensembleCrea', id=ensemble.id, mode='Avancement')
+
+    else:
+        form = EditAvancementPieceForm(instance = avancementPiece)
+
+    return render(request, 'suivi/editAvancementSE.html', {'form':form, 'avancementSE':avancementSE, 'sousEnsemble':sousEnsemble, 'AvancementPiece':avancementPiece, 'piece':piece})
+
+@login_required
+def compagnons(request):
+    compagnons = Compagnon.objects.get(all)
+    qualifications ={}
+    taches = {}
+    for compagnon in compagnons:
+        taches[compagnon] = Tache.objects.filter(id_compagnon = compagnon)
+        qualifications[compagnon] = Qualification.objects.filter(id_compagnon = compagnon)
+
+    return render(request, 'suivi/compagnons.html',{'compagnons':compagnons,'taches':taches})
 
 @login_required
 @permission_required('suivi.delete_affaires', raise_exception=True)

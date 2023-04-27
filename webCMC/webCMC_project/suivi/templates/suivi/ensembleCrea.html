@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-center">
+
+        <h1>Affaire: {{affaire.numero}} - {{affaire.chantier}}</h1>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h2>Nomenclature - Avancement</h2>
+    </div>
+</div>
+
+<div class="container">
+    <div>
+        <h3>{{ensemble.numero}} {{ensemble.nom}}</h3>
+    </div>
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>{{ensemble.id_outil.numero}} - {{ensemble.id_outil.nom}}</th>
+                <th>Numero</th>
+                <th>Qte</th>
+                <th>Qte SYM</th>
+                <th>Complexité</th>
+                <th>kg/h</th>
+                <th>Temps de fab.</th>
+                <th>Temps de soudure</th>
+                {% if perms.suivi.change_ensemble %}
+                <th>Modifier</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for sousEnsemble in sousEnsembles %}
+                <tr>
+                    <td>{{sousEnsemble.nom}}</td>
+                    <td>{{sousEnsemble.numero}}</td>
+                    <td>{{sousEnsemble.quantite}}</td>
+                    <td>{{sousEnsemble.sym}}</td>
+                    <td>{{sousEnsemble.indice_de_complexite}}</td>
+                    <td>{% widthratio sousEnsemble.poids 1 heures_fabrication %}</td>
+                    <td>{{sousEnsemble.heures_fabrication}}</td>
+                    <td>{{sousEnsemble.heures_soudure}}</td>
+                    {% if perms.suivi.change_ensemble %}
+                    <td><a class="btn btn-outline-warning" href="{% url 'editSousEnsemble' sousEnsemble.id %}">Modifier</a></td>
+                    {% endif %}
+                </tr>
+                {% for piece in dicoSE[sousEnsemble] %}
+                    <tr>
+                    <td>{{piece.name}}</td>
+                    <td>{{piece.numero}}</td>
+                    <td>{{piece.quantite}}</td>
+                    <td>{{piece.sym}}</td>
+                    <td>{{piece.indice_complexite}}</td>
+                    <td>{% widthratio piece.poids_unitaire heures_fabrication 1 %} </td>
+                    <td>{{piece.heures_fabrication}}</td>
+                    <td>{{piece.heures_soudure}}</td>
+                    {% if perms.suivi.change_pieces %}
+                    <td><a class="btn btn-outline-warning" href="{% url 'editPiece' piece.id %}">Modifier</a></td>
+                    {% endif %}
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

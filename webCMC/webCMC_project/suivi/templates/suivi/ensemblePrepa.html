@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-center">
+
+        <h1>Affaire: {{affaire.numero}} - {{affaire.chantier}}</h1>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h2>Nomenclature - Avancement</h2>
+    </div>
+</div>
+
+<div class="container">
+    <div>
+        <h3>{{ensemble.numero}} {{ensemble.nom}}</h3>
+    </div>
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>{{ensemble.id_outil.numero}} - {{ensemble.id_outil.nom}}</th>
+                <th>Numero</th>
+                <th>Qte</th>
+                <th>Qte SYM</th>
+                <th>PU(kg)</th>
+                <th>PT(kg)</th>
+                <th>Note</th>
+                {% if perms.suivi.change_ensemble %}
+                <th>Modifier</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for sousEnsemble in sousEnsembles %}
+                <tr>
+                    <td>{{sousEnsemble.nom}}</td>
+                    <td>{{sousEnsemble.numero}}</td>
+                    <td>{{sousEnsemble.qantite}}</td>
+                    <td>{{sousEnsemble.sym}}</td>
+                    <td>{{sousEnsemble.poids}}</td>
+                    <td>{% widthratio sousEnsemble.poids 1 sousEnsemble.quantite %}</td>
+                    <td>{{sousEnsemble.notes}}</td>
+                    {% if perms.suivi.change_ensemble %}
+                    <td><a class="btn btn-outline-warning" href="{% url 'editSousEnsemble' sousEnsemble.id %}">Modifier</a></td>
+                    {% endif %}
+                </tr>
+                {% for piece in dicoSE[sousEnsemble] %}
+                    <tr>
+                    <td>{{piece.name}}</td>
+                    <td>{{piece.numero}}</td>
+                    <td>{{piece.quantite}}</td>
+                    <td>{{piece.sym}}</td>
+                    <td>{{piece.poids_unitaire}}</td>
+                    <td>{{piece.notes}}</td>
+                    {% if perms.suivi.change_ensemble %}
+                    <td><a class="btn btn-outline-warning" href="{% url 'editPiece' piece.id %}">Modifier</a></td>
+                    {% endif %}
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -63,10 +63,9 @@
     <table class="table table-hover table_bordered">
         <thead class="table-dark">
             <tr>
-                <th>Nom</th>
+                <th>Ensemble</th>
                 <th>Numero</th>
                 <th>Poids</th>
-                <th>Lien ensemble</th>
                 <th>Avancement global</th>
                 <th>Débit</th>
                 <th>Montage</th>
@@ -79,10 +78,9 @@
         <tbody>
             {% for ensemble,avancement in dictionnaire_E.items %}
             <tr>
-                <td>{{ensemble.nom}}</td>
+                <td><a class="btn btn-outline-primary" href="{% url 'ensemble' ensemble.id %}">{{ensemble.nom}}</a></td>
                 <td>{{ensemble.numero}}</td>
                 <td>{{ensemble.poids}}</td>
-                <td><a class="btn btn-outline-primary" href="{% url 'ensemble' ensemble.id %}">Voir</a></td>
                 <td>{{avancement.avancement_global}}</td>
                 <td>{{avancement.debit}}</td>
                 <td>{{avancement.montage}}</td>
@@ -115,7 +113,7 @@
                 <tbody>
                     {% for piece in pieces %}
                     <tr>
-                        <td>{{piece.numero}}</td>
+                        <td><a class="btn btn-outline-primary" href="{% url 'sousEnsemble' piece.id %}">{{piece.numero}}</a></td>
                         <td>{{piece.plan}}</td>
                         <td>{{piece.quantite}}</td>
                         <td>{{piece.poids}}</td>

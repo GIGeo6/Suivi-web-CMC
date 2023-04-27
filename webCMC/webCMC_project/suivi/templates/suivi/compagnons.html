@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h1>Compagnons</h1>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>h/sem</th>
+                <th>Qualifcation</th>
+                <th>Catégorie</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for compagnon in compagnons %}
+                <tr>
+                    <td>{{compagnon.prenom}}</td>
+                    <td>{{compagnon.nom}}</td>
+                    <td>{{compagnon.temps_hebdo}}</td>
+                    
+                </tr>
+                {% for quali in qualifications[compagnon] %}
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>{{quali.qualification}}</td>
+                    <td>{{quali.categorie}}</td>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Compagnon</th>
+                <th>Affaire</th>
+                <th>Piece</th>
+                <th>Quantité</th>
+                <th>Type</th>
+                <th>Temps estimé</th>
+                <th>Date début</th>
+                <th>Date fin estimée</th>
+                <th>État</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for compagnon in compagnons}
+                {% for tache in taches[compagnon] %}
+
+                    {% if tache.etat == '0' %}
+                        <tr style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if tache.etat == 'EC' %}
+                        <tr style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if tache.etat == 'TR' %}
+                        <tr style="background-color: #5FBD16;">
+                    {% endif %}
+                        <td>{{tache.id_compagnon.nom}}</td>
+                        <td>{{tache.id_affaire.numero}}</td>
+                        {% if tache.id_piece %}
+                            <td>{{tache.id_piece.numero}}</td>
+                        {% endif %}
+                        {% if tache.id_sous_ensemble %}
+                            <td>{{tache.id_sous_ensemble.numero}}</td>
+                        {% endif %}
+                        <td>{{tache.type}}</td>
+                        <td>{{tache.temps_estime}}</td>
+                        <td>{{tache.date_debut}}</td>
+                        <td>{{tache.date_fin}}</td>
+                        <td>{{tache.etat}}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

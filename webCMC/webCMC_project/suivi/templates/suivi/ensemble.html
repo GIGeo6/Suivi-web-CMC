@@ -16,6 +16,10 @@
         <a class="btn btn-outline-danger" href="{% url 'deleteEnsemble' ensemble.id %}">Supprimer l'ensemble</a>
         {% endif %}
     </div>
+    <br>
+    <div>
+        <a class="bton btn-primary" href="{% url 'ensembleAvancement' ensemble.id %}">Voir la nomenclature</a>
+    </div>
 </div>
 <br>
 <div class="container">

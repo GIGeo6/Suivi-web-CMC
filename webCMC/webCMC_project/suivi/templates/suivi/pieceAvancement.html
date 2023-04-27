@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-center">
+
+        <h1>Affaire: {{affaire.numero}} - {{affaire.chantier}}</h1>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h2>Nomenclature - Avancement {{piece.numero}} - {{piece.nom}}</h2>
+    </div>
+</div>
+
+<div class="container">
+    <div class="container">
+        <div>
+            <h3>SCIE</h3>
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>A débiter scie</th>
+                        <th>Type profilé</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if debitLaser.etat == '0'%}
+                    <tr style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if debitLaser.etat == 'EC'%}
+                    <tr style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if debitLaser.etat == 'TR'%}
+                    <tr style="background-color: #5FBD16;">
+                    {% endif %}
+                        <td>{{debitScie.etat}}</td>
+                        <td>{{debitScie.type_profile}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h3>LASER</h3>
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>A débiter laser</th>
+                        <th>Épaisseur</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if debitLaser.etat == '0'%}
+                    <tr style="background-color: #F6503D;">
+                        <td><img src="{% static 'redcross.png' %}" width="auto" height="10" alt="0"></img></td>
+                        <td>{{debitLaser.epaisseur}}</td>
+                        <td>{{debitLaser.grade}}</td>
+                    </tr>
+                    {% endif %}
+                    {% if debitLaser.etat == 'EC' %}
+                    <tr style="background-color: #FFA926;">
+                        <td><img src="{% static 'orange_dash.png' %}" width="auto" height="10" alt="EC"></img></td>
+                        <td>{{debitLaser.epaisseur}}</td>
+                        <td>{{debitLaser.grade}}</td>
+                    </tr>
+                    {% endif %}
+                    {% if debitLaser.etat == 'TR' %}
+                    <tr style="background-color: #5FBD16;">
+                        <td><img src="{% static 'green_checkmark.png' %}" width="auto" height="10" alt="TR"></img></td>
+                        <td>{{debitLaser.epaisseur}}</td>
+                        <td>{{debitLaser.grade}}</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Type tache</th>
+                <th>Complexité</th>
+                <th>Poids</th>
+                <th>Temps estimé</th>
+                <th>Ratio</th>
+                <th>Compagnon</th>
+                <th>Quantité</th>
+                <th>Date démarrage</th>
+                <th>Fin estimée</th>
+                {% if perms.suivi.change_ensemble %}
+                <th>Modifier</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for tache in taches %}
+                {% if tache.etat == '0' %}
+                    <tr style="background-color: #F6503D;">
+                {% endif %}
+                {% if tache.etat == 'EC' %}
+                    <tr style="background-color: #FFA926;">
+                {% endif %}
+                {% if tache.etat == 'TR' %}
+                    <tr style="background-color: #5FBD16;">
+                {% endif %}
+                    <td>{{tache.type}}</td>
+                    <td>{{tache.complexite}}</td>
+                    <td>{{tache.poids}}</td>
+                    <td>{{tache.temps_estime}}</td>
+                    <td>{{tache.ratio}}</td>
+                    <td>{{tache.id_compagnon.nom}}</td>
+                    <td>{{tache.quantite}}</td>
+                    <td>{{tache.date_debut}}</td>
+                    <td>{{tache.date_fin}}</td>
+                    {% if perms.suivi.change_ensemble %}
+                    <td><a class="btn btn-outline-warning" href="{% url 'editAvancementPiece' piece.id %}">Modifier</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

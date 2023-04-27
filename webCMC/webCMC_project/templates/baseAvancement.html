@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-center">
+
+        <h1>Affaire: {{affaire.numero}} - {{affaire.chantier}}</h1>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h2>Nomenclature - Avancement</h2>
+    </div>
+</div>
+
+<div class="container">
+    <div>
+        <h3>{{piece.numero}} {{piece.nom}}</h3>
+    </div>
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Nom</th>
+                <th>SE</th>
+                <th>Numero</th>
+                <th>Qte</th>
+                <th>Usinage</th>
+                <th>Debit scie</th>
+                <th>Debit CN</th>
+                <th>Fab</th>
+                <th>Ajustage</th>
+                <th>Peinture</th>
+                <th>Livraison</th>
+                {% if perms.suivi.change_avancement %}
+                <th>Modifier</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for piece in pieces %}
+            <tr>
+                <td>{{piece.name}}</td>
+                <td>{{piece.id_sousensemble.numero}}</td>
+                <td>{{piece.numero}}</td>
+                <td>{{piece.quantite}}</td>
+                <td>{{piece.usinage}}</td>
+                <td>{{piece.debitscie}}</td>
+                <td>{{piece.debitcn}}</td>
+                <td>{{piece.fabrication}}</td>
+                <td>{{piece.ajustage}}</td>
+                <td>{{piece.peinture}}</td>
+                <td>{{piece.livraison}}</td>
+                {% if perms.suivi.change_contact %}
+                <td><a class="btn btn-outline-warning" href="{% url 'editContact' contact.id %}">Modifier</a></td>
+                {% endif %}
+                {% if perms.suivi.delete_contact %}
+                <td><a class="btn btn-outline-danger" href="{% url 'deleteContact' contact.id %}">Supprimer</a></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
