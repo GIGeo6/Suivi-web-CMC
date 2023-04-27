@@ -150,7 +150,7 @@ class AvancementPiece(models.Model):
     type_tache = models.CharField(max_length=64, null = False)
     complexite = models.CharField(max_length=16, choices=['Facile','Moyen','Difficile'], null=False)
     quantite = models.IntegerField(max_length=16,null=False,default=1)
-    sym = models.IntegetField(max_length=16,null=False, default=0)
+    sym = models.IntegerField(max_length=16,null=False, default=0)
     temps_adapte = models.CharField(max_length=16, null=False, default=0)
     ratio = models.FloatField(max_length=16, null=False, default=1)
     livraison = models.BooleanField(default=False)
