@@ -142,13 +142,22 @@ class AvancementPiece(models.Model):
         (TERMINE, 'Terminé'),
         ]
     
+    FACILE = 'Facile'
+    MOYEN = 'Moyen'
+    DIFFICILE = 'Difficile'
+    DIFFICULTE_CHOIX = [
+        (FACILE,'Facile'),
+        (MOYEN,'Moyen'),
+        (DIFFICILE,'Difficile'),
+        ]
+    
     debit = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
     montage = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
     soudure = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
     ajustage_montage = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
     peinture = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
     type_tache = models.CharField(max_length=64, null = False)
-    complexite = models.CharField(max_length=16, choices=['Facile','Moyen','Difficile'], null=False)
+    complexite = models.CharField(max_length=16, choices=DIFFICULTE_CHOIX, null=False)
     quantite = models.IntegerField(max_length=16,null=False,default=1)
     sym = models.IntegerField(max_length=16,null=False, default=0)
     temps_adapte = models.CharField(max_length=16, null=False, default=0)
