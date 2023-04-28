@@ -255,7 +255,7 @@ class PieceEnsemble(models.Model):
     id_piece = models.ForeignKey(Pieces, on_delete=models.CASCADE, null=True)
     id_ensemble = models.ForeignKey(Ensembles, on_delete=models.CASCADE, null=True)
     id_sousensemble = models.ForeignKey(SousEnsemble, on_delete = models.CASCADE, null = True)
-    type = models.CharField(max_length=63, choices=[('piece','piece'),('sous-ensemble','sous-ensemble'),('ensemble','ensemble')], null = False)
+    type = models.CharField(max_length=63, choices=[('piece','piece'),('sous-ensemble','sous-ensemble'),('ensemble','ensemble')], null = False, default='piece')
 
 class Contact(models.Model):
     name = models.CharField(max_length=63,null=True)
@@ -329,7 +329,7 @@ class Tache(models.Model):
     etat = models.CharField(max_length=63, choices = ETAT_CHOIX, default=NON_COMMENCE)
     type = models.CharField(max_length=63, null=False)
     qualification = models.CharField(max_length=63, null=False)
-    unite = models.CharField(max_length=15, choices = UNITE_CHOIX)
+    unite = models.CharField(max_length=15, choices = UNITE_CHOIX, default=K)
     quantite = models.IntegerField(max_length=31, null=True)
 
 class DebitScie(models.Model):
