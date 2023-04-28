@@ -160,7 +160,7 @@ def ensembleCrea(request,id,mode):
     dicoAv= {}
     page = 'suivi/ensemble'+mode+'.html'
     for sousEnsemble in sousEnsembles:
-        pieces = Pieces.objects.filter(id_ensemble = id, id_sousensemble=sousEnsemble.id, type='piece')
+        pieces = Pieces.objects.filter(id_ensemble = id, id_sous_ensemble=sousEnsemble.id)
         dicoSE[sousEnsemble] = pieces
         dicoAv[sousEnsemble] = AvancementEnsemble.objects.get(id_sousensemble= sousEnsemble.id)
         for piece in pieces:
