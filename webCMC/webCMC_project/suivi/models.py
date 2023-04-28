@@ -23,7 +23,7 @@ class Outils(models.Model):
     lien_offre = models.CharField(max_length = 127, null=True)
     date_livraison = models.CharField(max_length = 63, null=True)
     id_affaires = models.ForeignKey(Affaires, on_delete=models.CASCADE)
-    fabrication = models.CharField(max_length=32)
+    fabrication = models.CharField(max_length=32, null=True)
     budget_total = models.IntegerField(default = 0, null=False)
     budget_matiere = models.IntegerField(default=0, null=False)
     budget_hydraulique = models.IntegerField(default=0, null=False)
