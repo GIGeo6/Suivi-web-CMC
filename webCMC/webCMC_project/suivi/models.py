@@ -330,7 +330,7 @@ class Tache(models.Model):
     type = models.CharField(max_length=63, null=False)
     qualification = models.CharField(max_length=63, null=False)
     unite = models.CharField(max_length=15, choices = UNITE_CHOIX, default=K)
-    quantite = models.IntegerField(max_length=31, null=True)
+    quantite = models.IntegerField(null=True)
 
 class DebitScie(models.Model):
 

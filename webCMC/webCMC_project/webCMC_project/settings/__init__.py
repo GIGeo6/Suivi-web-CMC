@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'webCMC_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # on utilise l'adaptateur postgresql
-        'NAME': 'webCMC', # le nom de notre base de donnees creee precedemment
+        'NAME': 'webcmc', # le nom de notre base de donnees creee precedemment
         'USER': 'geoffroy', # attention : remplacez par votre nom d'utilisateur
         'PASSWORD': 'CMC',
         'HOST': 'localhost',
