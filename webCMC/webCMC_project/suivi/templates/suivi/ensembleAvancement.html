@@ -51,7 +51,7 @@
                     <td>{{sousEnsemble.numero}}</td>
                     <td>/</td>
                     <td>{{sousEnsemble.quantite}}</td>
-                    {% if dicoAv[sousEnsemble].usinage == '0' %}
+                    {% if dicoAv|get_item:sousEnsemble|get_item:usinage == '0' %}
                         <td style="background-color: #F6503D;">
                     {% endif %}
                     {% if dicoAv[sousEnsemble].usinage == 'EC' %}
