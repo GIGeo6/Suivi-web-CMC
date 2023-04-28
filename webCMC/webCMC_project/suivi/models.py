@@ -255,7 +255,7 @@ class PieceEnsemble(models.Model):
     id_piece = models.ForeignKey(Pieces, on_delete=models.CASCADE, null=True)
     id_ensemble = models.ForeignKey(Ensembles, on_delete=models.CASCADE, null=True)
     id_sousensemble = models.ForeignKey(SousEnsemble, on_delete = models.CASCADE, null = True)
-    type = models.CharField(max_length=63, choices=['piece','sous-ensemble','ensemble'], null = False)
+    type = models.CharField(max_length=63, choices=[('piece','piece'),('sous-ensemble','sous-ensemble'),('ensemble','ensemble')], null = False)
 
 class Contact(models.Model):
     name = models.CharField(max_length=63,null=True)
@@ -358,7 +358,29 @@ class DebitLaser(models.Model):
         (TERMINE, 'Terminé'),
         ]
     
+    NON = 'Non'
+    LARMEE = 'Larmée'
+    QUATRE = '4'
+    CINQ = '5'
+    SIX = '6'
+    HUIT = '8'
+    DOUZE = '12'
+    QUINZE = '15'
+    VINGT = '20'
+
+    EPAISSEUR_CHOIX = [
+        (NON,'Non'),
+        (LARMEE,'Larmée'),
+        (QUATRE,'4'),
+        (CINQ,'5'),
+        (SIX,'6'),
+        (HUIT,'8'),
+        (DOUZE,'12'),
+        (QUINZE,'15'),
+        (VINGT,'20'),
+        ]
+    
     id_piece = models.ForeignKey(Pieces, on_delete = models.CASCADE, null = False)
-    epaisseur = models.CharField(max_length=8, choices=['Non','Larmée','4','5','6','8','12','15','20'], default = 'Non')
+    epaisseur = models.CharField(max_length=8, choices=EPAISSEUR_CHOIX, default = 'Non')
     grade = models.CharField(max_length=16, null = True)
     etat = models.CharField(max_length=63, choices = ETAT_CHOIX, default=NON_COMMENCE)
