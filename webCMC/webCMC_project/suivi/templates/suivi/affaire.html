@@ -56,7 +56,7 @@
     <div class="row"><br><p> </p></div>
 </div>
 <br>
-
+{% if contact %}
 <div class="container">
     <h2>Contact</h2>
     <table class="table table-hover table-bordered">
@@ -93,6 +93,7 @@
     <a class="btn btn-outline-primary" href="{% url 'createContact' affaire.id %}">Créer une facture</a>
     {% endif %}
 </div>
+{% endif %}
 <div class="container">
 
 <br>
