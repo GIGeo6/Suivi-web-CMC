@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class="container">
     <div class="d-flex justify-content-center">
@@ -68,7 +69,7 @@
                             <img src="{% static 'img/orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
                         {% endif %}
                         {% if dicoAv|get_item:sousEnsemble|get_item:usinage == 'TR' %}
-                            <img src{% static 'img/green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
+                            <img src="{% static 'img/green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
                         {% endif %}
                     </td>
                     {% if dicoAv|get_item:sousEnsemble|get_item:debitscie == '0' %}
@@ -81,7 +82,7 @@
                         <td style="background-color: #5FBD16;">
                     {% endif %}
                         {% if dicoAv|get_item:sousEnsemble|get_item:debitscie == '0' %}
-              {             <img src="{% static 'img/redcross.png' %}" width="auto" height="10" alt="0"></a>
+                            <img src="{% static 'img/redcross.png' %}" width="auto" height="10" alt="0"></a>
                         {% endif %}
                         {% if dicoAv|get_item:sousEnsemble|get_item:debitscie == 'EC' %}
                             <img src="{% static 'img/orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
