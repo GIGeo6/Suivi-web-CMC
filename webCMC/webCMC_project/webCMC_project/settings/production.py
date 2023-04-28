@@ -31,7 +31,7 @@ if os.environ.get('ENV') == 'PRODUCTION':
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['188.166.5.243']
+ALLOWED_HOSTS = ['188.166.5.243','cmc-formworks.com']
 
 
 # Application definition
