@@ -16,7 +16,7 @@ import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,10 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 's*8=$6w-^1*qhab&%s2nw0t51luhhkj#zx*k%3di$9ll7$l9oa'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('ENV') == 'PRODUCTION':
-    DEBUG = False
-else:
-    DEBUG = True
+DEBUG = True
 
 ALLOWED_HOSTS = ['188.166.5.243']
 
@@ -61,13 +58,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'webCMC_project.urls'
 
-LOGIN_URL = '/suivi/login_view'
+LOGIN_URL = os.path.join(BASE_DIR,'suivi/login_view')
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR.joinpath('templates')
+            'templates',
+            'suivi/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -122,9 +120,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
@@ -138,25 +136,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-if os.environ.get('ENV') == 'PRODUCTION':
-    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-    STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
-    STATICFILES_DIR = [
-        BASE_DIR / "static", 
-        '/suivi/static',
-    ]
-    db_from_env = dj_database_url.config(conn_max_age=500)
-    DATABASES['default'].update(db_from_env)
-
-else:
-    STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
-    STATICFILES_DIR = [
-        BASE_DIR / "static", 
-        '/suivi/static',
-    ]
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = 'staticfiles'
+STATICFILES_DIR = [
+    'static', 
+    'suivi/static',
+]
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 
-STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
+
 
 #STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
