@@ -59,6 +59,7 @@ urlpatterns = [
     path('suivi/editCommande/<int:id>/', suivi.editCommande, name='editCommande'),
     path('suivi/editBudget/<int:id>/', suivi.editBudget, name='editBudget'),
     path('suivi/editAvancementSE/<int:id>', suivi.editAvancementSE, name='editAvancementSE'),
+    path('suivi/editAvancementPiece/<int:id>', suivi.editAvancementPiece, name='editAvancementPiece'),
     path('suivi/editChargementCamion/<int:id>', suivi.editChargementCamion, name="editChargementCamion"),
     path('suivi/editContact/<int:id>/', suivi.editContact, name='editContact'),
 
