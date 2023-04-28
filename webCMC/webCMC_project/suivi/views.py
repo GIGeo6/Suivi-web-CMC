@@ -154,7 +154,7 @@ def piece(request,id):
 @login_required
 def ensembleCrea(request,id,mode):
     ensemble = Ensembles.objects.get(id = id)
-    sousEnsembles = PieceEnsemble.objects.filter(id_ensemble = ensemble, type='sous-ensemble')
+    sousEnsembles = PieceEnsemble.objects.filter(id_ensemble = ensemble.id, type='sous-ensemble')
     dicoSE = {}
     dicoTps = {}
     dicoAv= {}
