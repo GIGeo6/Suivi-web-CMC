@@ -558,10 +558,11 @@ def editPiece(request,id):
 @login_required
 @permission_required('suivi.add_pieces', raise_exception=True)
 def createPiece(request, id_sousEnsemble):
+    sousEnsemble = SousEnsemble.objects.get(id=id_sousEnsemble)
     affaire = Affaires.objects.get(id = sousEnsemble.id_affaires.id)
     outil = Outils.objects.get(id = sousEnsemble.id_outils.id)
     ensemble = Ensembles.objects.get(id = sousEnsemble.id_ensemble.id)
-    sousEnsemble = SousEnsemble.objects.get(id=id_sousEnsemble)
+    
 
     if request.method == 'POST':
         
