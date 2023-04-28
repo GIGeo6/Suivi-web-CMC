@@ -158,8 +158,8 @@ class AvancementPiece(models.Model):
     peinture = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
     type_tache = models.CharField(max_length=64, null = False)
     complexite = models.CharField(max_length=16, choices=DIFFICULTE_CHOIX, null=False)
-    quantite = models.IntegerField(max_length=16,null=False,default=1)
-    sym = models.IntegerField(max_length=16,null=False, default=0)
+    quantite = models.IntegerField(null=False,default=1)
+    sym = models.IntegerField(null=False, default=0)
     temps_adapte = models.CharField(max_length=16, null=False, default=0)
     ratio = models.FloatField(max_length=16, null=False, default=1)
     livraison = models.BooleanField(default=False)
@@ -266,7 +266,7 @@ class Contact(models.Model):
 class Compagnon(models.Model):
     nom = models.CharField(max_length=63, null=False)
     prenom = models.CharField(max_length=63, null=False)
-    temps_hebdo = models.IntegerField(max_length=15, null=False)
+    temps_hebdo = models.IntegerField(null=False)
 
 class Qualification(models.Model):
 
@@ -297,7 +297,7 @@ class Qualification(models.Model):
     ]
     
     compagnon = models.ForeignKey(Compagnon, on_delete=models.CASCADE, null=False)
-    qualification = models.IntegerField(max_length=4, choices = QUALIFICATION_CHOIX, default=0)
+    qualification = models.IntegerField(choices = QUALIFICATION_CHOIX, default=0)
     categorie = models.CharField(max_length=63, choices = CATEGORIE_CHOIX, default=NON)
 
 class Tache(models.Model):
@@ -323,7 +323,7 @@ class Tache(models.Model):
     id_ensemble = models.ForeignKey(Ensembles, on_delete=models.CASCADE, null=True)
     id_compagnon = models.ForeignKey(Compagnon, on_delete=models.CASCADE, null=True)
     id_affaire = models.ForeignKey(Affaires, on_delete=models.CASCADE, null=False)
-    temps_estime = models.IntegerField(max_length=15, default=0)
+    temps_estime = models.IntegerField(default=0)
     date_debut = models.DateField(null=True)
     date_fin = models.DateField(null=True)
     etat = models.CharField(max_length=63, choices = ETAT_CHOIX, default=NON_COMMENCE)
