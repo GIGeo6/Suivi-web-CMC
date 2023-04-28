@@ -154,20 +154,20 @@ def piece(request,id):
 @login_required
 def ensembleCrea(request,id,mode):
     ensemble = Ensembles.objects.get(id = id)
-    sousEnsembles = PieceEnsemble.objects.filter(id_ensemble = ensemble.id, type='sous-ensemble')
+    sousEnsembles = SousEnsemble.objects.filter(id_ensemble = ensemble.id)
     dicoSE = {}
     dicoTps = {}
     dicoAv= {}
     page = 'suivi/ensemble'+mode+'.html'
     for sousEnsemble in sousEnsembles:
-        pieces = Pieces.objects.filter(id_ensemble = id, id_sousensemble=sousEnsemble, type='piece')
+        pieces = Pieces.objects.filter(id_ensemble = id, id_sousensemble=sousEnsemble.id, type='piece')
         dicoSE[sousEnsemble] = pieces
         dicoAv[sousEnsemble] = AvancementEnsemble.objects.get(id_sousensemble= sousEnsemble.id)
         for piece in pieces:
             dicoTps[piece] = piece.poids_unitaire / (piece.heures_fabrication * piece.heures_soudure)
             dicoAv[piece] = AvancementPiece.objects.get(id_piece = piece.id)
 
-    return render(request,page,{'ensemble':ensemble,'sousEnsembles':sousEnsembles,'dicoSE':dicoSE,'dicoAv':dicoAv})
+    return render(request,page,{'ensemble':ensemble,'sousEnsembles':sousEnsembles,'dicoSE':dicoSE,'dicoAv':dicoAv,'dicoTps':dicoTps})
 
 @login_required
 def nomenclature(request,id):
