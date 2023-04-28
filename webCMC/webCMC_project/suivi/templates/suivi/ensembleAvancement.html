@@ -190,7 +190,7 @@
                     <td><a class="btn btn-outline-warning" href="{% url 'editAvancementSE' sousEnsemble.id %}">Modifier</a></td>
                     {% endif %}
                 </tr>
-                {% for piece in dicoAv|get_item:sousEnsemble %}
+                {% for piece in dicoSE|get_item:sousEnsemble %}
                     <tr>
                     <td>{{piece.nom}}</td>
                     <td>{{sousEnsemble.numero}}</td>
