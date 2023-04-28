@@ -893,8 +893,8 @@ def editAvancementSE(request, id):
 @login_required
 @permission_required('suivi.change_avancementpiece', raise_exception=True)
 def editAvancementPiece(request, id):
-    avancementPiece = AvancementPiece.objects.get(id = id)
-    piece = Pieces.objects.get(id = avancementPiece.id_piece.id)
+    piece = Pieces.objects.get(id = id)
+    avancementPiece = AvancementPiece.objects.get(id_piece = id)
     sousEnsemble = SousEnsemble.objects.get(id = piece.id_sousensemble.id)
     avancementSE = avancementSE.objects.get(id = sousEnsemble.id)
     ensemble = Ensembles.objects.get(id = piece.id_ensemble.id)
