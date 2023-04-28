@@ -162,7 +162,7 @@ def ensembleCrea(request,id,mode):
     for sousEnsemble in sousEnsembles:
         pieces = Pieces.objects.filter(id_ensemble = id, id_sous_ensemble=sousEnsemble.id)
         dicoSE[sousEnsemble] = pieces
-        dicoAv[sousEnsemble] = AvancementEnsemble.objects.get(id_sousensemble= sousEnsemble.id)
+        dicoAv[sousEnsemble] = AvancementSousEnsemble.objects.get(id_sousensemble= sousEnsemble.id)
         for piece in pieces:
             dicoTps[piece] = piece.poids_unitaire / (piece.heures_fabrication * piece.heures_soudure)
             dicoAv[piece] = AvancementPiece.objects.get(id_piece = piece.id)
