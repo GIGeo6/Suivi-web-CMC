@@ -330,7 +330,7 @@
                         {% endif %}
                     </td>
                     {% if perms.suivi.change_avancement %}
-                    <td><a class="btn btn-outline-warning" href="{% url 'editAvancement' dicoAV|get_item:piece|get_item:id %}">Modifier</a></td>
+                    <td><a class="btn btn-outline-warning" href="{% url 'editAvancement' dicoAv|get_item:piece|get_item:id %}">Modifier</a></td>
                     {% endif %}
                     </tr>
                 {% endfor %}
