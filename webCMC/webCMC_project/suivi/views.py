@@ -17,6 +17,10 @@ from django.template.defaulttags import register as reg
 def get_item(dictionary, key):
     return dictionary[key]
 
+@reg.filter
+def get_item_double(dictionary1, param, key):
+    return dictionary1[key].param
+
 # Create your views here.
 
 def index(request):

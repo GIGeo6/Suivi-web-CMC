@@ -24,6 +24,12 @@ class PieceEnsembleAdmin(admin.ModelAdmin):
 class AvancementEnsembleAdmin(admin.ModelAdmin):
     list_display = ('id_affaires', 'id_ensembles', 'debit', 'montage')
 
+class AvancementSousEnsembleAdmin(admin.ModelAdmin):
+    list_display = ('id_affaires','id_ensemble','id_sousensemble','numero_sousensemble')
+
+class AvancementPieceAdmin(admin.ModelAdmin):
+    list_display = ('id_sous_ensemble','id_piece','debit')
+
 class NomenclatureAdmin(admin.ModelAdmin):
     list_display = ('sous_projet', 'id_outils', 'id_affaires')
 
@@ -39,6 +45,21 @@ class CommandesAdmin(admin.ModelAdmin):
 class ChargementCamionAdmin(admin.ModelAdmin):
     list_display = ('identifiant_camion','numero_piece')
 
+class CompagnonAdmin(admin.ModelAdmin):
+    list_display = ('nom','prenom','temps_hebdo')
+
+class QualificationsAdmin(admin.ModelAdmin):
+    list_display = ('compagnon','qualification','categorie')
+
+class TacheAdmin(admin.ModelAdmin):
+    list_display = ('id_affaire','id_piece','etat')
+
+class DebitScieAdmin(admin.ModelAdmin):
+    list_display = ('id_piece','type_profile','etat')
+
+class DebitLaserAdmin(admin.ModelAdmin):
+    list_display = ('id_piece','epaisseur','grade','etat')
+
 admin.site.register(Affaires,AffairesAdmin)
 admin.site.register(PieceEnsemble, PieceEnsembleAdmin)
 admin.site.register(Outils, OutilsAdmin)
@@ -46,8 +67,15 @@ admin.site.register(Ensembles, EnsemblesAdmin)
 admin.site.register(SousEnsemble, SousEnsemblesAdmin)
 admin.site.register(Pieces, PiecesAdmin)
 admin.site.register(AvancementEnsemble, AvancementEnsembleAdmin)
+admin.site.register(AvancementSousEnsemble, AvancementSousEnsembleAdmin)
+admin.site.register(AvancementPieceAdmin,AvancementPiece)
 admin.site.register(Nomenclature, NomenclatureAdmin)
 admin.site.register(Camions, CamionsAdmin)
 admin.site.register(Factures, FacturesAdmin)
 admin.site.register(Commandes, CommandesAdmin)
 admin.site.register(Chargementcamions, ChargementCamionAdmin)
+admin.site.register(CompagnonAdmin,Compagnon)
+admin.site.register(Qualification,QualificationsAdmin)
+admin.site.register(Tache,TacheAdmin)
+admin.site.register(DebitScie,DebitScieAdmin)
+admin.site.register(DebitLaser,DebitLaserAdmin)

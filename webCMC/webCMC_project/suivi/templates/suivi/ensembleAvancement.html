@@ -46,29 +46,29 @@
             </tr>
         </thead>
         <tbody>
-            {% for sousEnsemble in sousEnsembles %}
+            {% for sousEnsemble,AvSousEnsemble in sousEnsembles %}
                 <tr>
                     <td>{{sousEnsemble.nom}}</td>
                     <td>{{sousEnsemble.numero}}</td>
                     <td>/</td>
                     <td>{{sousEnsemble.quantite}}</td>
-                    {% if dicoAv|get_item:sousEnsemble|get_item:usinage == '0' %}
+                    {% if AvSousEnsemble|get_item:usinage == '0' %}
                         <td style="background-color: #F6503D;">
                     {% endif %}
-                    {% if dicoAv|get_item:sousEnsemble|get_item:usinage == 'EC' %}
+                    {% if AvSousEnsemble|get_item:usinage == 'EC' %}
                         <td style="background-color: #FFA926;">
                     {% endif %}
-                    {% if dicoAv|get_item:sousEnsemble|get_item:usinage == 'TR' %}
+                    {% if AvSousEnsemble|get_item:usinage == 'TR' %}
                         <td style="background-color: #5FBD16;">
                     {% endif %}
                         
-                        {% if dicoAv|get_item:sousEnsemble|get_item:usinage == '0' %}
+                        {% if AvSousEnsemble|get_item:usinage == '0' %}
                             <img src="{% static 'img/redcross.png' %}" width="auto" height="10" alt="0"></a>
                         {% endif %}
-                        {% if dicoAv|get_item:sousEnsemble|get_item:usinage == 'EC' %}
+                        {% if AvSousEnsemble|get_item:usinage == 'EC' %}
                             <img src="{% static 'img/orange_dash.png' %}" width="auto" height="10" alt="EC"></a>
                         {% endif %}
-                        {% if dicoAv|get_item:sousEnsemble|get_item:usinage == 'TR' %}
+                        {% if AvSousEnsemble|get_item:usinage == 'TR' %}
                             <img src="{% static 'img/green_checkmark.png' %}" width="auto" height="10" alt="TR"></a>
                         {% endif %}
                     </td>
