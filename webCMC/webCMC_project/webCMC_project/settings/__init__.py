@@ -16,7 +16,7 @@ import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -31,7 +31,7 @@ if os.environ.get('ENV') == 'PRODUCTION':
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['188.166.5.243']
+ALLOWED_HOSTS = ['188.166.5.243','127.0.0.1']
 
 
 # Application definition
@@ -63,11 +63,14 @@ ROOT_URLCONF = 'webCMC_project.urls'
 
 LOGIN_URL = '/suivi/login_view'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR.parent,'media/')
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR.joinpath('templates')
+            BASE_DIR.parent.parent.joinpath('templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -90,8 +93,8 @@ WSGI_APPLICATION = 'webCMC_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # on utilise l'adaptateur postgresql
-        'NAME': 'webcmc', # le nom de notre base de donnees creee precedemment
-        'USER': 'geoffroy', # attention : remplacez par votre nom d'utilisateur
+        'NAME': 'webCMC', # le nom de notre base de donnees creee precedemment
+        'USER': 'postgres', # attention : remplacez par votre nom d'utilisateur
         'PASSWORD': 'CMC',
         'HOST': 'localhost',
         'PORT': '5432',

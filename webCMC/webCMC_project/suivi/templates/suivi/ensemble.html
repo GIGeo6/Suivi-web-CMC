@@ -48,7 +48,7 @@
                     <td>{{ensemble.numero}}</td>
                     <td>{{ensemble.poids}}</td>
                     <td>{{ensemble.taux_de_complexite}}</td>
-                    <td>{{ensemble.compagnon}}</td>
+                    <td>{{ensemble.compagnon.prenom}} {{ensemble.compagnon.prenom}}</td>
                     <td>{{ensemble.nestings}}</td>
                     <td>{{ensemble.feuilles_de_debit}}</td>
                     <td>{{ensemble.couleur_peinture}}</td>
@@ -77,12 +77,12 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ avancement.avancement_global }}</td>
-                <td>{{ avancement.debit }}</td>
-                <td>{{ avancement.montage }}</td>
-                <td>{{ avancement.soudure }}</td>
-                <td>{{ avancement.ajustage_montage }}</td>
-                <td>{{ avancement.peinture }}</td>
+                <td>{{avancement.avancement_global}}</td>
+                <td>{{avancement.debitCN}}</td>
+                <td>{{avancement.montage}}</td>
+                <td>{{avancement.soudure}}</td>
+                <td>{{avancement.ajustage_montage}}</td>
+                <td>{{avancement.peinture}}</td>
             </tr>
         </tbody>
     </table>

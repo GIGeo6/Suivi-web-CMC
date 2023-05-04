@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models.base import Model
 from django.db.models.deletion import CASCADE
 from datetime import datetime
+import os
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -30,6 +32,7 @@ class Outils(models.Model):
     budget_mecanique = models.IntegerField(default=0, null=False)
     budget_heures = models.IntegerField(default=0, null=False)
     sym = models.IntegerField(default=0, null=False)
+    image_outil = models.ImageField(upload_to='img/', null=True)
 
 class Ensembles(models.Model):
     nom = models.CharField(max_length=127)
@@ -45,6 +48,7 @@ class Ensembles(models.Model):
     budget_fab = models.IntegerField(null=True)
     reference = models.CharField(max_length=127, null=True)
     sym = models.IntegerField(default=0, null=False)
+    id_avancement = models.ForeignKey('AvancementEnsemble', on_delete=models.CASCADE, null=True)
     id_outils = models.ForeignKey(Outils, on_delete=models.CASCADE, null=True)
     id_affaires = models.ForeignKey(Affaires, on_delete = models.CASCADE, null=True)
 
@@ -66,6 +70,7 @@ class SousEnsemble(models.Model):
     colisage = models.CharField(max_length=127, null=True)
     of = models.CharField(max_length = 63, null=True)
     revision = models.IntegerField(null=True, default = 0)
+    id_avancement = models.ForeignKey('AvancementSousEnsemble', on_delete=models.CASCADE, null=True)
     id_outils = models.ForeignKey(Outils, on_delete=models.CASCADE, null=True)
     id_affaires = models.ForeignKey(Affaires, on_delete = models.CASCADE, null=True)
     id_ensemble = models.ForeignKey(Ensembles,on_delete = models.CASCADE)
@@ -88,6 +93,7 @@ class Pieces(models.Model):
     numero_ensemble = models.IntegerField(null=True)
     numero_outil = models.IntegerField(null=True)
     numero_affaire = models.IntegerField(null=True)
+    id_avancement = models.ForeignKey('AvancementPiece', on_delete=models.CASCADE, null=True)
     id_ensemble = models.ForeignKey(Ensembles, on_delete=models.CASCADE)
     id_outil = models.ForeignKey(Outils, on_delete=models.CASCADE)
     id_affaires = models.ForeignKey(Affaires, on_delete=models.CASCADE, null = True)
@@ -110,23 +116,28 @@ class AvancementSousEnsemble(models.Model):
 
     numero_sousensemble = models.IntegerField(null=True)
 
-    debit = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
-    montage = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
-    soudure = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
-    ajustage_montage = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
-    peinture = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
-    decoupe_cn = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
+    usinage = models.CharField(max_length=4, default=0)
+    debitScie = models.CharField(max_length=4, default = 0)
+    montage = models.CharField(max_length=4, default = 0)
+    soudure = models.CharField(max_length=4, default = 0)
+    ajustage_montage = models.CharField(max_length=4, default = 0)
+    peinture = models.CharField(max_length=4, default = 0)
+    debitCn = models.CharField(max_length=4, default = 0)
     livraison = models.BooleanField(default=False)
+    avancement_global = models.CharField(max_length=16, null=True)
     id_sousensemble = models.ForeignKey(SousEnsemble, on_delete=models.CASCADE)
     id_ensemble = models.ForeignKey(Ensembles, on_delete = models.CASCADE, null = True)
     id_affaires = models.ForeignKey(Affaires, on_delete=models.CASCADE)
 
 class AvancementEnsemble(models.Model):
-    debit = models.CharField(max_length=16, null=True)
-    montage = models.CharField(max_length=16, null=True)
-    soudure = models.CharField(max_length=16, null=True)
-    ajustage_montage = models.CharField(max_length=16, null=True)
-    peinture = models.CharField(max_length=16, null=True)
+    
+    usinage = models.CharField(max_length=16, default=0)
+    debitScie = models.CharField(max_length=16, default = 0)
+    debitCN = models.CharField(max_length=15, default = 0)
+    montage = models.CharField(max_length=16, default = 0)
+    soudure = models.CharField(max_length=16, default = 0)
+    ajustage_montage = models.CharField(max_length=16, default = 0)
+    peinture = models.CharField(max_length=16, default = 0)
     livraison = models.BooleanField(default=False)
     avancement_global = models.CharField(max_length=16, null=True)
     id_ensembles = models.ForeignKey(Ensembles, on_delete=models.CASCADE)
@@ -151,7 +162,9 @@ class AvancementPiece(models.Model):
         (DIFFICILE,'Difficile'),
         ]
     
-    debit = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
+    usinage = models.CharField(max_length=4, choices= ETAT_CHOIX, default = NON_COMMENCE)
+    debitScie = models.CharField(max_length=4, choices = ETAT_CHOIX, default= NON_COMMENCE)
+    debitCn = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
     montage = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
     soudure = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
     ajustage_montage = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
@@ -165,7 +178,7 @@ class AvancementPiece(models.Model):
     livraison = models.BooleanField(default=False)
     avancement_global = models.CharField(max_length=16, null=True)
     id_sous_ensemble = models.ForeignKey(SousEnsemble, on_delete=models.CASCADE, null = False)
-    id_piece = models.ForeignKey(Pieces,on_delete=models.CASCADE, null = False)
+    id_piece = models.OneToOneField(Pieces,on_delete=models.CASCADE, null = False)
 
 class Camions(models.Model):
     identifiant = models.IntegerField(null=True)
@@ -194,8 +207,10 @@ class Commandes(models.Model):
     date_commande = models.CharField(max_length=63,null=True, default=datetime.now().date())
     date_reception = models.CharField(max_length=63,null=True, default=datetime.now().date())
     statut = models.CharField(max_length=127)
-    id_affaires = models.ForeignKey(Affaires,null = True, on_delete=CASCADE)
-    paired_commandes = models.ManyToManyField('self',symmetrical=True)
+
+class CommandeAffaire(models.Model):
+    id_affaire = models.ForeignKey(Affaires, on_delete=models.CASCADE, null=False)
+    id_commande = models.ForeignKey(Commandes, on_delete=models.CASCADE, null=False)
 
 class Factures(models.Model):
     numero = models.IntegerField(null=True)
@@ -204,8 +219,10 @@ class Factures(models.Model):
     facture = models.CharField(max_length=127,null=True)
     montant = models.CharField(max_length=127)
     attribution_budget = models.CharField(max_length=127)
-    id_affaires = models.ForeignKey(Affaires, null= True, on_delete=CASCADE)
-    paired_factures = models.ManyToManyField('self', symmetrical=True)
+
+class FactureAffaire(models.Model):
+    id_affaire = models.ForeignKey(Affaires, on_delete=models.CASCADE, null=False)
+    id_facture = models.ForeignKey(Factures, on_delete=models.CASCADE, null=False)
 
 class Anomalies(models.Model):
     type= {'conception','fabrication'}
@@ -317,6 +334,21 @@ class Tache(models.Model):
         (K, 'kg'),
         (Q, 'Qte'),
     ]
+
+    PEINTRE = '1'
+    DEBITEUR = '2'
+    SOUDEUR = '3'
+    TRAPPEUR = '4'
+    CHAUDRONNIER = '5'
+    MONTEUR = '6'
+    QUALIFICATION_CHOIX= [
+        (PEINTRE, 'Peintre'),
+        (DEBITEUR, 'Débiteur'),
+        (SOUDEUR, 'Soudeur'),
+        (TRAPPEUR, 'Trappeur'),
+        (CHAUDRONNIER, 'Chaudronnier'),
+        (MONTEUR, 'Monteur'),
+        ]
     
     id_piece = models.ForeignKey(Pieces, on_delete=models.CASCADE, null=True)
     id_sous_ensemble = models.ForeignKey(SousEnsemble, on_delete=models.CASCADE, null=True)
@@ -328,7 +360,7 @@ class Tache(models.Model):
     date_fin = models.DateField(null=True)
     etat = models.CharField(max_length=63, choices = ETAT_CHOIX, default=NON_COMMENCE)
     type = models.CharField(max_length=63, null=False)
-    qualification = models.CharField(max_length=63, null=False)
+    qualification = models.CharField(max_length = 15, choices = QUALIFICATION_CHOIX, default='0')
     unite = models.CharField(max_length=15, choices = UNITE_CHOIX, default=K)
     quantite = models.IntegerField(null=True)
 
@@ -384,3 +416,25 @@ class DebitLaser(models.Model):
     epaisseur = models.CharField(max_length=8, choices=EPAISSEUR_CHOIX, default = 'Non')
     grade = models.CharField(max_length=16, null = True)
     etat = models.CharField(max_length=63, choices = ETAT_CHOIX, default=NON_COMMENCE)
+
+
+@receiver(models.signals.post_delete,sender=Outils)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    if instance.image:
+        if os.path.isfile(instance.image_outil.path):
+            os.remove(instance.image_outil.path)
+
+@receiver(models.signals.pre_save,sender=Outils)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+    
+    try:
+        old_file = Outils.objects.get(pk=instance.pk).image_outil
+    except Outils.DoesNotExist:
+        return False
+    
+    new_file = instance.image_outil
+    if not old_file == new_file:
+        if os.path.isfile(old_file.path):
+            os.remove(old_file.path)

@@ -20,6 +20,7 @@ from django.urls import path,include
 import suivi.views as suivi
 #from suivi.views import *
 from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('suivi/', include('suivi.urls')),
@@ -27,7 +28,6 @@ urlpatterns = [
     path('', suivi.index, name='index'),
 
     path('static/', static),
-    
 
     path('suivi/login_view/', suivi.login_view, name='login_view'),
     path('suivi/affairesautocomplete/', suivi.AffaireAutocomplete.as_view(), name='affaireAutocomplete' ),
@@ -94,3 +94,8 @@ urlpatterns = [
     path('suivi/deleteChargementCamion/<int:id>', suivi.deleteChargementCamion, name='deleteChargementCamion'),
     path('suivi/deleteContact/<int:id>/', suivi.deleteContact, name='deleteContact'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    urlpatterns += staticfiles_urlpatterns()

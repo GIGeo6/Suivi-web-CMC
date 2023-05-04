@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class="container">
     <div class="d-flex justify-content-center">
@@ -57,5 +58,129 @@
                 </tr>
             </tbody>
         </table>
+</div>
+
+<div class="container">
+    <div class="container">
+        <div>
+            <h3>SCIE</h3>
+            <a class = "btn btn-outline-primary" href="{% url 'createDebitScie' piece.id %}">Ajouter un débit</a>
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>A débiter scie</th>
+                        <th>Type profilé</th>
+                        <th>Modifier</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for debitScie in debitS %}
+                    {% if debitScie.etat == '0' %}
+                    <tr style="background-color: #F6503D;">
+                    {% endif %}
+                    {% if debitScie.etat == 'EC' %}
+                    <tr style="background-color: #FFA926;">
+                    {% endif %}
+                    {% if debitScie.etat == 'TR' %}
+                    <tr style="background-color: #5FBD16;">
+                    {% endif %}
+                        <td>{{debitScie.etat}}</td>
+                        <td>{{debitScie.type_profile}}</td>
+                        <td><a class="btn btn-outline-warning" href="{% url 'editDebitScie' debitScie.id %}">Modifier</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h3>LASER</h3>
+            <a class = "btn btn-outline-primary" href="{% url 'createDebitLaser' piece.id %}">Ajouter un débit</a>
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>A débiter laser</th>
+                        <th>Épaisseur</th>
+                        <th>Grade</th>
+                        <th>Modifier</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for debitLaser in debitL %}
+                    {% if debitLaser.etat == '0' %}
+                    <tr style="background-color: #F6503D;">
+                        <td><img src="{% static 'img/redcross.png' %}" width="auto" height="10" alt="0"></img>Non commencé</td>
+                        <td>{{debitLaser.epaisseur}}</td>
+                        <td>{{debitLaser.grade}}</td>
+                        <td><a class="btn btn-outline-warning" href="{% url 'editDebitLaser' debitLaser.id %}">Modifier</a></td>
+                    </tr>
+                    {% endif %}
+                    {% if debitLaser.etat == 'EC' %}
+                    <tr style="background-color: #FFA926;">
+                        <td><img src="{% static 'img/orange_dash.png' %}" width="auto" height="10" alt="EC"></img>En cours</td>
+                        <td>{{debitLaser.epaisseur}}</td>
+                        <td>{{debitLaser.grade}}</td>
+                        <td><a class="btn btn-outline-warning" href="{% url 'editDebitLaser' debitLaser.id %}">Modifier</a></td>
+                    </tr>
+                    {% endif %}
+                    {% if debitLaser.etat == 'TR' %}
+                    <tr style="background-color: #5FBD16;">
+                        <td><img src="{% static 'img/green_checkmark.png' %}" width="auto" height="10" alt="TR"></img>Terminé</td>
+                        <td>{{debitLaser.epaisseur}}</td>
+                        <td>{{debitLaser.grade}}</td>
+                        <td><a class="btn btn-outline-warning" href="{% url 'editDebitLaser' debitLaser.id %}">Modifier</a></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <h3>Taches</h3>
+    <a class = "btn btn-outline-primary" href="{% url 'createTache' piece.id %}">Ajouter une tache</a>
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Type tache</th>
+                <th>Complexité</th>
+                <th>Poids</th>
+                <th>Temps estimé</th>
+                <th>Ratio</th>
+                <th>Compagnon</th>
+                <th>Quantité</th>
+                <th>Date démarrage</th>
+                <th>Fin estimée</th>
+                {% if perms.suivi.change_ensemble %}
+                <th>Modifier</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for tache in taches %}
+                {% if tache.etat == '0' %}
+                    <tr style="background-color: #F6503D;">
+                {% endif %}
+                {% if tache.etat == 'EC' %}
+                    <tr style="background-color: #FFA926;">
+                {% endif %}
+                {% if tache.etat == 'TR' %}
+                    <tr style="background-color: #5FBD16;">
+                {% endif %}
+                    <td>{{tache.type}}</td>
+                    <td>{{tache.complexite}}</td>
+                    <td>{{tache.poids}}</td>
+                    <td>{{tache.temps_estime}}</td>
+                    <td>{{tache.ratio}}</td>
+                    <td>{{tache.id_compagnon.nom}}</td>
+                    <td>{{tache.quantite}}</td>
+                    <td>{{tache.date_debut}}</td>
+                    <td>{{tache.date_fin}}</td>
+                    {% if perms.suivi.change_ensemble %}
+                    <td><a class="btn btn-outline-warning" href="{% url 'editAvancementPiece' piece.id %}">Modifier</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

@@ -8,11 +8,11 @@
 
     <div class="d-flex justify-content-center">
         {% if perms.suivi.change_commandes %}
-        <a class="btn btn-outline-success" href="{% url 'lierCommande' commande.id %}">Lier une commande</a>
-        <a class="btn btn-outline-warning" href="{% url 'editCommande' commande.id %}">Modifier la commande</a>
+        <a class="btn btn-outline-success" href="{% url 'lierCommande' commande.id_commande %}">Lier une commande</a>
+        <a class="btn btn-outline-warning" href="{% url 'editCommande' commande.id_commande %}">Modifier la commande</a>
         {% endif %}
         {% if perms.suivi.delete_commande %}
-        <a class="btn btn-outline-outline-danger" href="{% url 'deleteCommande' commande.id %}">Supprimer la commande</a>
+        <a class="btn btn-outline-outline-danger" href="{% url 'deleteCommande' commande.id_commande %}">Supprimer la commande</a>
         {% endif %}
     </div>
 </div>
@@ -33,12 +33,12 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ commande.numero }}</td>
-                <td>{{ commande.fournisseur }}</td>
-                <td>{{ commande.date_commande }}</td>
-                <td>{{ commande.date_reception }}</td>
-                <td>{{ commande.statut }}</td>
-                <td>{{ commande.devis }}</td>
+                <td>{{ commande.id_commande.numero }}</td>
+                <td>{{ commande.id_commande.fournisseur }}</td>
+                <td>{{ commande.id_commande.date_commande }}</td>
+                <td>{{ commande.id_commande.date_reception }}</td>
+                <td>{{ commande.id_commande.statut }}</td>
+                <td>{{ commande.id_commande.devis }}</td>
             </tr>
         </tbody>
     </table>

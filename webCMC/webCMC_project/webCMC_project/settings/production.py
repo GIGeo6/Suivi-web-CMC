@@ -33,7 +33,8 @@ else:
 
 ALLOWED_HOSTS = ['188.166.5.243','cmc-formworks.com']
 
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 # Application definition
 
 INSTALLED_APPS = [

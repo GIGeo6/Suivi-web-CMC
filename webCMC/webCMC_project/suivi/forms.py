@@ -100,6 +100,17 @@ class RechercheCommandeForm(forms.ModelForm):
         model = Commandes
         exclude = ['devis','date_commande','date_reception']
 
+class RechercherCompagnonForm(forms.ModelForm):
+    class Meta:
+        model= Compagnon
+        fields = ['nom']
+        widgets = {
+            'nom':autocomplete.ListSelect2(
+                url = 'compagnonAutocomplete',
+                attrs = {'data-html':True}
+            )
+        }
+
 class PieceSearchForm(forms.Form):
     numero = forms.IntegerField()
 
@@ -121,7 +132,7 @@ class EditOutilForm(forms.ModelForm):
 class EditEnsembleForm(forms.ModelForm):
     class Meta:
         model = Ensembles
-        exclude = ['id_affaires','id_outils','miniature']
+        exclude = ['id_affaires','id_outils','miniature','id_avancement']
 
 class CreateEnsembleForm(forms.ModelForm):
     class Meta:
@@ -131,7 +142,7 @@ class CreateEnsembleForm(forms.ModelForm):
 class EditPieceForm(forms.ModelForm):
     class Meta:
         model = Pieces
-        exclude = ['id_affaires','id_outil','id_ensemble','numero_affaire','numero_outil','numero_ensemble','id_sous_ensemble']
+        exclude = ['id_affaires','id_outil','id_ensemble','numero_affaire','numero_outil','numero_ensemble','id_sous_ensemble','id_avancement']
 
 class EditCamionForm(forms.ModelForm):
     class Meta:
@@ -181,7 +192,7 @@ class CreateAvancementPieceForm(forms.ModelForm):
 class EditAvancementPieceForm(forms.ModelForm):
     class Meta:
         model = AvancementPiece
-        exclude = ['id_piece','id_sous_ensemble']
+        exclude = ['id_piece','id_sous_ensemble','avancement_global']
 
 class CreateAvancementSousEnsembleForm(forms.ModelForm):
     class Meta:
@@ -191,7 +202,7 @@ class CreateAvancementSousEnsembleForm(forms.ModelForm):
 class EditAvancementSousEnsembleForm(forms.ModelForm):
     class Meta:
         model = AvancementSousEnsemble
-        exclude = ['id_sousensemble','numero_sousensemble','id_affaires','id_ensemble']
+        exclude = ['id_sousensemble','numero_sousensemble','id_affaires','id_ensemble','avancement_global']
 
 class CreateAvancementEnsembleForm(forms.ModelForm):
     class Meta:
@@ -201,7 +212,22 @@ class CreateAvancementEnsembleForm(forms.ModelForm):
 class EditAvancementEnsembleForm(forms.ModelForm):
     class Meta:
         model = AvancementSousEnsemble
-        exclude = ['id_ensemble','numero_ensemble','id_affaires']
+        exclude = ['id_ensemble','numero_ensemble','id_affaires','avancement_global']
+
+class EditDebitScieForm(forms.ModelForm):
+    class Meta:
+        model = DebitScie
+        exclude = ['id_piece']
+
+class EditDebitLaserForm(forms.ModelForm):
+    class Meta:
+        model = DebitLaser
+        exclude = ['id_piece']
+
+class EditTacheForm(forms.ModelForm):
+    class Meta:
+        model = Tache
+        exclude = ['id_piece','id_sous_ensemble','id_ensemble','id_affaire']
 
 class EditBudgetForm(forms.ModelForm):
     class Meta:
@@ -216,7 +242,7 @@ class CreateSousEnsembleForm(forms.ModelForm):
 class EditSousEnsembleForm(forms.ModelForm):
     class Meta:
         model = SousEnsemble
-        exclude = ['id_affaires','id_outils','id_ensemble']
+        exclude = ['id_affaires','id_outils','id_ensemble','id_avancement']
 
 class EditContactForm(forms.ModelForm):
     class Meta:

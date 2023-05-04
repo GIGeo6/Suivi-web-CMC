@@ -8,6 +8,11 @@
     </div>
 </div>
 
+<div>
+    <a class="btn btn-primary" href="{% url 'ensembleCrea' ensemble.id 'Avancement' %}">Nomenclature - Avancement</a>
+    <a class="btn btn-primary" href="{% url 'ensembleCrea' ensemble.id 'Prepa' %}">Nomenclature - Preparation</a>
+</div>
+
 <div class="container">
     <div class="d-flex justify-content-center">
         <h2>Nomenclature - Avancement</h2>
@@ -16,7 +21,7 @@
 
 <div class="container">
     <div>
-        <h3>{{ensemble.numero}} {{ensemble.nom}}</h3>
+        <h3><a class="btn btn-outline-warning" href="{% url 'ensemble' ensemble.id %}">Retour vers l'ensenble {{ensemble.numero}} - {{ensemble.nom}}</a></h3>
     </div>
     <table class="table table-hover table-bordered">
         <thead class="table-dark">
