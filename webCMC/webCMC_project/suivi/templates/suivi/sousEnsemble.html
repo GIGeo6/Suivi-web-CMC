@@ -71,12 +71,101 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ avancement.get_decoupe_cn_display }}</td>
-                <td>{{ avancement.get_debit_display }}</td>
-                <td>{{ avancement.get_montage_display }}</td>
-                <td>{{ avancement.get_soudure_display }}</td>
-                <td>{{ avancement.get_ajustage_montage_display }}</td>
-                <td>{{ avancement.get_peinture_display }}</td>
+                {% if avancement.debitCn == '0' %}
+                    <td style="background-color: #F6503D;">                   
+                        {{ avancement.debitCn }}
+                    </td>
+                {% elif avancement.debitCn > '0' and avancement.debitCn != '100' %}
+                    <td style="background-color: #FFA926;">
+                        {{avancement.debitCn}}
+                    </td>
+                {% elif avancement.debitCn == '100' %}
+                    <td style="background-color: #5FBD16;">
+                        {{avancement.debitCn}}
+                    </td>
+                {% else %}
+                    <td style="background-color: #5FBD16">{{avancement.debitCn}}</td>
+                {% endif %}
+
+                {% if avancement.debitScie == '0' %}
+                    <td style="background-color: #F6503D;">                   
+                        {{ avancement.debitScie }}
+                    </td>
+                {% elif avancement.debitScie > '0' and avancement.debitScie != '100' %}
+                    <td style="background-color: #FFA926;">
+                        {{avancement.debitScie}}
+                    </td>
+                {% elif avancement.debitScie == '100' %}
+                    <td style="background-color: #5FBD16;">
+                        {{avancement.debitScie}}
+                    </td>
+                {% else %}
+                    <td style="background-color: #5FBD16">{{avancement.debit}}</td>
+                {% endif %}
+
+                {% if avancement.montage == '0' %}
+                    <td style="background-color: #F6503D;">                   
+                        {{ avancement.montage }}
+                    </td>
+                {% elif avancement.montage > '0' and avancement.montage != '100' %}
+                    <td style="background-color: #FFA926;">
+                        {{avancement.montage}}
+                    </td>
+                {% elif avancement.debitCn == '100' %}
+                    <td style="background-color: #5FBD16;">
+                        {{avancement.montage}}
+                    </td>
+                {% else %}
+                    <td style="background-color: #5FBD16">{{avancement.montage}}</td>
+                {% endif %}
+
+                {% if avancement.soudure == '0' %}
+                    <td style="background-color: #F6503D;">                   
+                        {{ avancement.soudure }}
+                    </td>
+                {% elif avancement.soudure > '0' and avancement.soudure != '100' %}
+                    <td style="background-color: #FFA926;">
+                        {{avancement.soudure}}
+                    </td>
+                {% elif avancement.soudure == '100' %}
+                    <td style="background-color: #5FBD16;">
+                        {{avancement.soudure}}
+                    </td>
+                {% else %}
+                    <td style="background-color: #5FBD16">{{avancement.soudure}}</td>
+                {% endif %}
+
+                {% if avancement.ajustage_montage == '0' %}
+                    <td style="background-color: #F6503D;">                   
+                        {{ avancement.ajustage_montage }}
+                    </td>
+                {% elif avancement.ajustage_montage > '0' and avancement.ajustage_montage != '100' %}
+                    <td style="background-color: #FFA926;">
+                        {{avancement.ajustage_montage}}
+                    </td>
+                {% elif avancement.ajustage_montage == '100' %}
+                    <td style="background-color: #5FBD16;">
+                        {{avancement.ajustage_montage}}
+                    </td>
+                {% else %}
+                    <td style="background-color: #5FBD16">{{avancement.ajustage_montage}}</td>
+                {% endif %}
+
+                {% if avancement.peinture == '0' %}
+                    <td style="background-color: #F6503D;">                   
+                        {{ avancement.peinture }}
+                    </td>
+                {% elif avancement.peinture > '0' and avancement.peinture != '100' %}
+                    <td style="background-color: #FFA926;">
+                        {{avancement.peinture}}
+                    </td>
+                {% elif avancement.peinture == '100' %}
+                    <td style="background-color: #5FBD16;">
+                        {{avancement.peinture}}
+                    </td>
+                {% else %}
+                    <td style="background-color: #5FBD16">{{avancement.peinture}}</td>
+                {% endif %}
             </tr>
         </tbody>
     </table>

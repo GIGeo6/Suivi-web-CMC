@@ -55,8 +55,43 @@
     
     <div class="row"><br><p> </p></div>
 </div>
+<div class="container">
+        
+    <br>
+        <h2>Outils</h2>
+        {% if perms.suivi.add_outils %}
+        <a class="btn btn-outline-primary" href="{% url 'createOutil' affaire.id %}">Créer un outil</a>
+        {% endif %}
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Numero</th>
+                    <th>Quantite</th>
+                    <th>Options</th>
+                    <th>Date offre</th>
+                    <th>Version offre</th>
+                    <th>Lien offre</th>
+                    <th>Date livraison</th>
+                    <th>Lien outil</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for outil in outils %}
+                <tr>
+                    <td>{{outil.numero}}</td>
+                    <td>{{outil.quantite}}</td>
+                    <td>{{outil.option}}</td>
+                    <td>{{outil.date_offre}}</td>
+                    <td>{{outil.version_offre}}</td>
+                    <td>{{outil.lien_offre}}</td>
+                    <td>{{outil.date_livraison}}</td>
+                    <td><a class="btn btn-primary" href="{% url 'outil' outil.id %}">Voir</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</div>
 <br>
-
 <div class="container">
     <h2>Contact</h2>
     <table class="table table-hover table-bordered">
@@ -66,10 +101,10 @@
                 <th>Téléphone</th>
                 <th>Email</th>
                 {% if perms.suivi.change_contact %}
-                <th>Modifier</th>
+                    <th>Modifier</th>
                 {% endif %}
                 {% if perms.suivi.delete_contact %}
-                <th>Supprimer</th>
+                    <th>Supprimer</th>
                 {% endif %}
             </tr>
         </thead>
@@ -80,23 +115,22 @@
                 <td>{{contact.telephone}}</td>
                 <td>{{contact.email}}</td>
                 {% if perms.suivi.change_contact %}
-                <td><a class="btn btn-outline-warning" href="{% url 'editContact' contact.id %}">Modifier</a></td>
+                    <td><a class="btn btn-outline-warning" href="{% url 'editContact' contact.id %}">Modifier</a></td>
                 {% endif %}
                 {% if perms.suivi.delete_contact %}
-                <td><a class="btn btn-outline-danger" href="{% url 'deleteContact' contact.id %}">Supprimer</a></td>
+                    <td><a class="btn btn-outline-danger" href="{% url 'deleteContact' contact.id %}">Supprimer</a></td>
                 {% endif %}
             </tr>
-        {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
     {% if perms.suivi.add_contact %}
-    <a class="btn btn-outline-primary" href="{% url 'createContact' affaire.id %}">Créer une facture</a>
+        <a class="btn btn-outline-primary" href="{% url 'createContact' affaire.id %}">Créer un contact</a>
     {% endif %}
 </div>
-<div class="container">
+
 
 <br>
-
 <div class="container">
         <h2>Factures</h2>
         <table class="table table-hover table-bordered">
@@ -132,7 +166,7 @@
                     <td><a class="btn btn-outline-danger" href="{% url 'deleteFacture' facture.id %}">Supprimer</a></td>
                     {% endif %}
                 </tr>
-            {% endfor %}
+                {% endfor %}
             </tbody>
         </table>
         {% if perms.suivi.add_factures %}
@@ -262,7 +296,7 @@
             <tr>
                 <td>{{commande.fournisseur}}</td>
                 <td>{{commande.devis}}</td>
-                <td>{{commamde.date_commande}}</td>
+                <td>{{commande.date_commande}}</td>
                 <td>{{commande.date_reception}}</td>
                 <td>{{commande.statut}}</td>
                 {% if perms.suivi.change_commandes %}
@@ -282,41 +316,6 @@
     
 </div>
 
-<div class="container">
-        
-    <br>
-        <h2>Outils</h2>
-        {% if perms.suivi.add_outils %}
-        <a class="btn btn-outline-primary" href="{% url 'createOutil' affaire.id %}">Créer un outil</a>
-        {% endif %}
-        <table class="table table-bordered table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>Numero</th>
-                    <th>Quantite</th>
-                    <th>Options</th>
-                    <th>Date offre</th>
-                    <th>Version offre</th>
-                    <th>Lien offre</th>
-                    <th>Date livraison</th>
-                    <th>Lien outil</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for outil in outils %}
-                <tr>
-                    <td>{{outil.numero}}</td>
-                    <td>{{outil.quantite}}</td>
-                    <td>{{outil.option}}</td>
-                    <td>{{outil.date_offre}}</td>
-                    <td>{{outil.version_offre}}</td>
-                    <td>{{outil.lien_offre}}</td>
-                    <td>{{outil.date_livraison}}</td>
-                    <td><a class="btn btn-primary" href="{% url 'outil' outil.id %}">Voir</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-</div>
+
 
 {% endblock %}

@@ -26,7 +26,7 @@
                     <td>{{compagnon.temps_hebdo}}</td>
                     
                 </tr>
-                {% for quali in qualifications[compagnon] %}
+                {% for quali in qualifications|get_item:compagnon %}
                     <td>-</td>
                     <td>-</td>
                     <td>-</td>
@@ -54,8 +54,8 @@
             </tr>
         </thead>
         <tbody>
-            {% for compagnon in compagnons}
-                {% for tache in taches[compagnon] %}
+            {% for comp in compagnons %}
+                {% for tache in taches|get_item:comp %}
 
                     {% if tache.etat == '0' %}
                         <tr style="background-color: #F6503D;">
@@ -67,12 +67,12 @@
                         <tr style="background-color: #5FBD16;">
                     {% endif %}
                         <td>{{tache.id_compagnon.nom}}</td>
-                        <td>{{tache.id_affaire.numero}}</td>
+                        <td>{{tache.id_affaire.numero}} - {{tache.id_affaire.chantier}}</td>
                         {% if tache.id_piece %}
-                            <td>{{tache.id_piece.numero}}</td>
+                            <td>{{tache.id_piece.numero}} - {{tache.id_piece.nom}}</td>
                         {% endif %}
                         {% if tache.id_sous_ensemble %}
-                            <td>{{tache.id_sous_ensemble.numero}}</td>
+                            <td>{{tache.id_sous_ensemble.numero}} - {{tache.id_sous_ensemble.nom}}</td>
                         {% endif %}
                         <td>{{tache.type}}</td>
                         <td>{{tache.temps_estime}}</td>
@@ -80,8 +80,9 @@
                         <td>{{tache.date_fin}}</td>
                         <td>{{tache.etat}}</td>
                     </tr>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
+            
         </tbody>
     </table>
 </div>

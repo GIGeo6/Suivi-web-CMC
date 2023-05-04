@@ -12,9 +12,10 @@ urlpatterns = [
     path('piece/<int:id>/', views.piece, name='piece'),
     path('commande/<int:id>/', views.commande, name='commande'),
     path('suivi/nomenclature/<int:id>/', views.nomenclature, name='nomenclature'),
-    path('suivi/ensembleAvancement/<int:id>/', views.ensembleCrea, name='nomenclatureAvancement'),
-    path('suivi/ensembleCrea/<int:id>/', views.ensembleCrea, name='nomenclatureCrea'),
-    path('suivi/ensemblePrepa/<int:id>/', views.ensembleCrea, name='nomenclaturePrepa'),
+    path('suivi/ensembleAvancement/<int:id>/<str:mode>', views.ensembleCrea, name='ensembleAvancement'),
+    path('suivi/ensembleCrea/<int:id>/<str:mode>', views.ensembleCrea, name='ensembleCrea'),
+    path('suivi/ensemblePrepa/<int:id>/<str:mode>', views.ensembleCrea, name='ensemblePrepa'),
+    path('suivi/compagnons', views.compagnons, name='compagnons'),
 
     path('editAffaire/<int:id>/', views.editAffaire, name='editAffaire'),
     path('editOutil/<int:id>/', views.editOutil, name='editOutil'),
@@ -26,6 +27,9 @@ urlpatterns = [
     path('editFacture/<int:id>/', views.editFacture, name='editFacture'),
     path('editCommande/<int:id>/', views.editCommande, name='editCommande'),
     path('editContact/<int:id>/', views.editContact, name='editContact'),
+    path('editDebitScie/<int:id>/', views.editDebitScie, name='editDebitScie'),
+    path('editDebitLaser/<int:id>/', views.editDebitLaser, name='editDebitLaser'),
+    path('editTache/<int:id>', views.editTache, name='editTache'),
 
     path('rechercheAffaire/', views.rechercheAffaire, name='rechercheAffaire'),
     path('rechercheCamion/', views.rechercheCamion, name='rechercheCamion'),
@@ -42,6 +46,9 @@ urlpatterns = [
     path('createPiece/<int:id_affaire>/<int:id_outil>/<int:id_ensemble>', views.createPiece, name='createPiece'),
     path('createOutil/<int:id_affaires>', views.createOutil, name='createOutil'),
     path('createContact/<int:id_affaires>', views.createContact, name='createContact'),
+    path('createDebitScie/<int:id_piece>', views.createDebitScie, name='createDebitScie'),
+    path('createDebitLaser/<int:id_piece>', views.createDebitLaser, name='createDebitLaser'),
+    path('createTache/<int:id_piece>', views.createTache, name='createTache'),
 
     path('deleteAffaire/<int:id>', views.deleteAffaire, name='deleteAffaire'),
     path('deleteOutil/<int:id>', views.deleteOutil, name='deleteOutil'),
