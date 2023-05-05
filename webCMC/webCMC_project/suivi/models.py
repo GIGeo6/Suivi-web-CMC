@@ -118,7 +118,7 @@ class AvancementSousEnsemble(models.Model):
 
     usinage = models.CharField(max_length=4, default=0)
     debitScie = models.CharField(max_length=4, default = 0)
-    montage = models.CharField(max_length=4, default = 0)
+    fabrication = models.CharField(max_length=4, default = 0)
     soudure = models.CharField(max_length=4, default = 0)
     ajustage_montage = models.CharField(max_length=4, default = 0)
     peinture = models.CharField(max_length=4, default = 0)
@@ -134,7 +134,7 @@ class AvancementEnsemble(models.Model):
     usinage = models.CharField(max_length=16, default=0)
     debitScie = models.CharField(max_length=16, default = 0)
     debitCN = models.CharField(max_length=15, default = 0)
-    montage = models.CharField(max_length=16, default = 0)
+    fabrication = models.CharField(max_length=16, default = 0)
     soudure = models.CharField(max_length=16, default = 0)
     ajustage_montage = models.CharField(max_length=16, default = 0)
     peinture = models.CharField(max_length=16, default = 0)
@@ -165,7 +165,7 @@ class AvancementPiece(models.Model):
     usinage = models.CharField(max_length=4, choices= ETAT_CHOIX, default = NON_COMMENCE)
     debitScie = models.CharField(max_length=4, choices = ETAT_CHOIX, default= NON_COMMENCE)
     debitCn = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
-    montage = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
+    fabrication = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
     soudure = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
     ajustage_montage = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
     peinture = models.CharField(max_length=4, choices = ETAT_CHOIX, default = NON_COMMENCE)
@@ -284,6 +284,9 @@ class Compagnon(models.Model):
     nom = models.CharField(max_length=63, null=False)
     prenom = models.CharField(max_length=63, null=False)
     temps_hebdo = models.IntegerField(null=False)
+
+    def __str__(self):
+        return self.nom
 
 class Qualification(models.Model):
 

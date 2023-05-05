@@ -22,7 +22,7 @@
 
 <div class="container">
     <div>
-        <h3><a class="btn btn-outline-warning" href="{% url 'ensemble' ensemble.id %}">Retour vers l'ensenble {{ensemble.numero}} - {{ensemble.nom}}</a></h3>
+        <h3><a class="btn btn-warning" href="{% url 'ensemble' ensemble.id %}">Retour vers l'ensenble {{ensemble.numero}} - {{ensemble.nom}}</a></h3>
     </div>
     <table class="table table-hover table-bordered">
         <thead class="table-dark">
@@ -88,7 +88,7 @@
                             <img src="{% static 'img/redcross.png' %}" width="auto" height="10" alt="0"></img>
                         </td>
                     {% endif %}
-                    {% if avancement.debitCn >= '0' and avancement.debitCn != '100' %}
+                    {% if avancement.debitCn > '0' and avancement.debitCn != '100' %}
                         <td style="background-color: #FFA926;">
                             <img src="{% static 'img/orange_dash.png' %}" width="auto" height="10" alt="EC"></img>
                         </td>
@@ -104,28 +104,28 @@
                             <img src="{% static 'img/redcross.png' %}" width="auto" height="10" alt="0"></img>
                         </td>
                     {% endif %}
-                    {% if avancement.fabrication >= '0' and avancement.fabrication != '100' %}
+                    {% if avancement.fabrication > '0' and avancement.fabrication != '100' %}
                         <td style="background-color: #FFA926;">
                             <img src="{% static 'img/orange_dash.png' %}" width="auto" height="10" alt="EC"></img>
                         </td>
                     {% endif %}
-                    {% if avancement.fabrication == 'TR' %}
+                    {% if avancement.fabrication == '100' %}
                         <td style="background-color: #5FBD16;">
                             <img src="{% static 'img/green_checkmark.png' %}" width="auto" height="10" alt="TR"></img>
                         </td>
                     {% endif %}
 
-                    {% if avancement.ajustage == '0' %}
+                    {% if avancement.ajustage_montage == '0' %}
                         <td style="background-color: #F6503D;">
                             <img src="{% static 'img/redcross.png' %}" width="auto" height="10" alt="0"></img>
                         </td>
                     {% endif %}
-                    {% if avancement.ajustage >= '0' and avancement.ajustage != '100' %}
+                    {% if avancement.ajustage_montage > '0' and avancement.ajustage_montage != '100' %}
                         <td style="background-color: #FFA926;">
                             <img src="{% static 'img/orange_dash.png' %}" width="auto" height="10" alt="EC"></img>
                         </td>
                     {% endif %}
-                    {% if avancement.ajustage == '100' %}
+                    {% if avancement.ajustage_montage == '100' %}
                         <td style="background-color: #5FBD16;">
                             <img src="{% static 'img/green_checkmark.png' %}" width="auto" height="10" alt="TR"></img>
                         </td>
@@ -136,7 +136,7 @@
                             <img src="{% static 'img/redcross.png' %}" width="auto" height="10" alt="0"></img>
                         </td>
                     {% endif %}
-                    {% if avancement.peinture >= '0' and avancement.peinture != '100' %}
+                    {% if avancement.peinture > '0' and avancement.peinture != '100' %}
                         <td style="background-color: #FFA926;">
                             <img src="{% static 'img/orange_dash.png' %}" width="auto" height="10" alt="EC"></img>
                         </td>
@@ -158,7 +158,7 @@
                     {% endif %}
 
                     {% if perms.suivi.change_avancement %}
-                    <td><a class="btn btn-outline-warning" href="{% url 'editAvancementSE' sousEnsemble.id %}">Modifier</a></td>
+                    <td><a class="btn btn-warning" href="{% url 'editAvancementSE' sousEnsemble.id %}">Modifier</a></td>
                     {% endif %}
                 </tr>
                 {% endwith %}
@@ -174,7 +174,7 @@
                             <img src="{% static 'img/redcross.png' %}" width="auto" height="10" alt="0"></img>
                         </td>
                     {% endif %}
-                    {% if avancement.usinage >= 'EC' %}
+                    {% if avancement.usinage == 'EC' %}
                         <td style="background-color: #FFA926;">
                             <img src="{% static 'img/orange_dash.png' %}" width="auto" height="10" alt="EC"></img>
                         </td>
@@ -233,17 +233,17 @@
                         </td>
                     {% endif %}
 
-                    {% if avancement.ajustage == '0' %}
+                    {% if avancement.ajustage_montage == '0' %}
                         <td style="background-color: #F6503D;">
                             <img src="{% static 'img/redcross.png' %}" width="auto" height="10" alt="0"></img>
                         </td>
                     {% endif %}
-                    {% if avancement.ajustage == 'EC' %}
+                    {% if avancement.ajustage_montage == 'EC' %}
                         <td style="background-color: #FFA926;">
                             <img src="{% static 'img/orange_dash.png' %}" width="auto" height="10" alt="EC"></img>
                         </td>
                     {% endif %}
-                    {% if avancement.ajustage == 'TR' %}
+                    {% if avancement.ajustage_montage == 'TR' %}
                         <td style="background-color: #5FBD16;">
                             <img src="{% static 'img/green_checkmark.png' %}" width="auto" height="10" alt="TR"></img>
                         </td>
@@ -277,7 +277,7 @@
                     {% endif %}
 
                     {% if perms.suivi.change_avancement %}
-                    <td><a class="btn btn-outline-warning" href="{% url 'editAvancementPiece' piece.id %}">Modifier</a></td>
+                    <td><a class="btn btn-warning" href="{% url 'editAvancementPiece' piece.id %}">Modifier</a></td>
                     {% endif %}
                     </tr>
                 {% endwith %}

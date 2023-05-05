@@ -68,7 +68,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR.parent.parent.joinpath('template')
+            BASE_DIR.parent.parent.joinpath('templates'),
+            BASE_DIR.parent.joinpath('templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -91,8 +92,8 @@ WSGI_APPLICATION = 'webCMC_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # on utilise l'adaptateur postgresql
-        'NAME': 'webcmc', # le nom de notre base de donnees creee precedemment
-        'USER': 'geoffroy', # attention : remplacez par votre nom d'utilisateur
+        'NAME': 'webCMC', # le nom de notre base de donnees creee precedemment
+        'USER': 'postgres', # attention : remplacez par votre nom d'utilisateur
         'PASSWORD': 'CMC',
         'HOST': 'localhost',
         'PORT': '5432',
