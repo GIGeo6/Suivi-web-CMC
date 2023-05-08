@@ -15,7 +15,7 @@ from .__init__ import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
-
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -66,7 +66,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR.joinpath('templates')
+            BASE_DIR.joinpath('templates'),
+            BASE_DIR.parent.joinpath('templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -96,3 +97,56 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+    'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
+STATIC_URL = '/static/'
+
+if os.environ.get('ENV') == 'PRODUCTION':
+    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+    STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
+    STATICFILES_DIR = [
+        BASE_DIR / "static", 
+        '/suivi/static',
+    ]
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)
+
+else:
+    STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
+    STATICFILES_DIR = [
+        BASE_DIR / "static", 
+        '/suivi/static',
+    ]
+
+STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
+
+                                #STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+                                # Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

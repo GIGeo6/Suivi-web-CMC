@@ -16,8 +16,7 @@ import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
@@ -30,7 +29,8 @@ SECRET_KEY = 's*8=$6w-^1*qhab&%s2nw0t51luhhkj#zx*k%3di$9ll7$l9oa'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['188.166.5.243','127.0.0.1']
+ALLOWED_HOSTS = ['188.166.5.243','127.0.0.1','cmc-formworks.com']
+CSRF_TRUSTED_ORIGINS = ['https://cmc-formworks.com']
 
 
 # Application definition
@@ -63,13 +63,13 @@ ROOT_URLCONF = 'webCMC_project.urls'
 LOGIN_URL = os.path.join(BASE_DIR,'suivi/login_view')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR.parent,'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR.parent.parent.joinpath('templates')
+            BASE_DIR.parent.parent.joinpath('template')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -92,8 +92,8 @@ WSGI_APPLICATION = 'webCMC_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # on utilise l'adaptateur postgresql
-        'NAME': 'webCMC', # le nom de notre base de donnees creee precedemment
-        'USER': 'postgres', # attention : remplacez par votre nom d'utilisateur
+        'NAME': 'webcmc', # le nom de notre base de donnees creee precedemment
+        'USER': 'geoffroy', # attention : remplacez par votre nom d'utilisateur
         'PASSWORD': 'CMC',
         'HOST': 'localhost',
         'PORT': '5432',

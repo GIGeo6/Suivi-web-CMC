@@ -73,28 +73,30 @@
                 <th>Numero</th>
                 <th>Poids</th>
                 <th>Avancement global</th>
-                <th>Débit</th>
+                <th>Débit CN</th>
+		<th>Débit Scie</th>
                 <th>Montage</th>
                 <th>Soudure</th>
                 <th>Ajustage/Montage</th>
                 <th>Peinture</th>
-                <th>Zone colisage</th>
             </tr>
         </thead>
         <tbody>
-            {% for ensemble,avancement in dictionnaire_E.items %}
+            {% for ensemble in ensembles %}
+	    {% with ensemble.id_avancement as avancement %}
             <tr>
                 <td><a class="btn btn-outline-primary" href="{% url 'ensemble' ensemble.id %}">{{ensemble.nom}}</a></td>
                 <td>{{ensemble.numero}}</td>
                 <td>{{ensemble.poids}}</td>
                 <td>{{avancement.avancement_global}}</td>
-                <td>{{avancement.debit}}</td>
-                <td>{{avancement.montage}}</td>
+                <td>{{avancement.debitCN}}</td>
+		<td>{{avancement.debitScie}}</td>
+		<td>{{avancement.montage}}</td>
                 <td>{{avancement.soudure}}</td>
-                <td>{{avancement.ajustage}}</td>
+                <td>{{avancement.ajustage_montage}}</td>
                 <td>{{avancement.peinture}}</td>
-                <td>{{avancement.colisage}}</td>
             </tr>
+	    {% endwith %}
             {% endfor %}
         </tbody>
     </table>
