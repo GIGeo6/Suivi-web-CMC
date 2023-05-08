@@ -412,7 +412,7 @@ def editOutil(request,id):
 def createOutil(request,id_affaires):
     affaire = Affaires.objects.get(id = id_affaires)
     if request.method == 'POST':
-        form = EditOutilForm(request.POST)
+        form = EditOutilForm(request.POST,request.FILES)
         
 
         if form.is_valid():
@@ -649,7 +649,7 @@ def editDebitScie(request,id):
             return redirect('piece', debitScie.id_piece)
     else:
         form = EditDebitScieForm(instance = debitScie)
-    return render(request,'suivi/editDebitScie.html', {'form':form})
+    return render(request,'suivi/editDebitScie.html', {'form':form,'debit':debitScie})
 
 @login_required
 @permission_required('suivi.add_debit_Laser', raise_exception=True)
@@ -681,7 +681,7 @@ def editDebitLaser(request,id):
             return redirect('piece', debitLaser.id_piece)
     else:
         form = EditDebitLaserForm(instance = debitLaser)
-    return render(request,'suivi/editDebitLaser.html', {'form':form})
+    return render(request,'suivi/editDebitLaser.html', {'form':form,'debit':debitLaser})
 
 @login_required
 @permission_required('suivi.add_tache', raise_exception=True)

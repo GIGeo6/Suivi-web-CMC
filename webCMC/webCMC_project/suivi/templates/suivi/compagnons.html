@@ -30,15 +30,20 @@
                     <td>-</td>
                     <td>-</td>
                     <td>-</td>
-                    <td>{{quali.qualification}}</td>
-                    <td>{{quali.categorie}}</td>
+                    <td>
+			    {{quali.get_qualification_display}}
+		    </td>
+                    <td>
+			    {{quali.categorie}}
+		    </td>
                 {% endfor %}
             {% endfor %}
         </tbody>
     </table>
 </div>
-
+<br><br>
 <div class="container">
+	<h3>Taches</h3>
     <table class="table table-hover table-bordered">
         <thead class="table-dark">
             <tr>
