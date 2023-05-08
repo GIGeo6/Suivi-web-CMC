@@ -22,7 +22,7 @@ class PieceEnsembleAdmin(admin.ModelAdmin):
     list_display = ('numero', 'nom','type', 'id_affaires', 'id_piece', 'id_ensemble')
 
 class AvancementEnsembleAdmin(admin.ModelAdmin):
-    list_display = ('id_affaires', 'id_ensembles', 'debitCN', 'montage')
+    list_display = ('id_affaires', 'id_ensembles', 'debitCN')
 
 class AvancementSousEnsembleAdmin(admin.ModelAdmin):
     list_display = ('id_affaires','id_ensemble','id_sousensemble','numero_sousensemble')

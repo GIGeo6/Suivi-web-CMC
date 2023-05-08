@@ -3,7 +3,7 @@
 <div class="container">
     <div class="d-flex justify-content-center">
 
-        <h1>Affaire: {{affaire.numero}} - {{affaire.chantier}}</h1>
+        <h1>Affaire: {{ensemble.id_affaires.numero}} - {{ensemble.id_affaires.chantier}}</h1>
 
     </div>
 </div>
@@ -17,11 +17,15 @@
     <div class="d-flex justify-content-center">
         <h2>Nomenclature - Avancement</h2>
     </div>
+    <div>
+	<a class="btn btn-primary" href="{% url 'ensembleCrea' ensemble.id 'Crea' %}">Nomenclature - Creation</a>
+	<a class="btn btn-primary" href="{% url 'ensembleCrea' ensemble.id 'Avancement' %}">Nomenclature - Avancement</a>
+    </div>
 </div>
 
 <div class="container">
     <div>
-        <h3><a class="btn btn-outline-warning" href="{% url 'ensemble' ensemble.id %}">Retour vers l'ensenble {{ensemble.numero}} - {{ensemble.nom}}</a></h3>
+        <h3><a class="btn btn-warning" href="{% url 'ensemble' ensemble.id %}">Retour vers l'ensenble {{ensemble.numero}} - {{ensemble.nom}}</a></h3>
     </div>
     <table class="table table-hover table-bordered">
         <thead class="table-dark">
@@ -49,7 +53,7 @@
                     <td>{% widthratio sousEnsemble.poids 1 sousEnsemble.quantite %}</td>
                     <td>{{sousEnsemble.notes}}</td>
                     {% if perms.suivi.change_ensemble %}
-                    <td><a class="btn btn-outline-warning" href="{% url 'editSousEnsemble' sousEnsemble.id %}">Modifier</a></td>
+                    <td><a class="btn btn-warning" href="{% url 'editSousEnsemble' sousEnsemble.id %}">Modifier</a></td>
                     {% endif %}
                 </tr>
                 {% for piece in dicoSE|get_item:sousEnsemble %}
