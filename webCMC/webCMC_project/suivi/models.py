@@ -440,7 +440,7 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
         return False
     
     new_file = instance.image_outil
-    if not old_file == new_file:
+    if not old_file == new_file and old_file:
         if os.path.isfile(old_file.path):
             os.remove(old_file.path)
 
@@ -461,7 +461,7 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
         return False
     
     new_file = instance.image_ensemble
-    if not old_file == new_file:
+    if not old_file == new_file and old_file:
         if os.path.isfile(old_file.path):
             os.remove(old_file.path)
             
@@ -482,7 +482,6 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
         return False
     
     new_file = instance.image_sous_ensemble
-    if not old_file == new_file:
+    if not old_file == new_file and old_file:
         if os.path.isfile(old_file.path):
             os.remove(old_file.path)
-        else: return False
