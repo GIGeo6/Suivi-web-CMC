@@ -23,6 +23,11 @@
 </div>
 <br>
 <div class="container">
+    {% if ensemble.image_ensemble %}
+    <div>
+        <img src="{{media_url}}{{ensemble.image_ensemble}}" alt="img" width="200" height="auto">
+    </div>
+    {% endif %}
     <div class="row">
         <h2>Recapitulatif</h2>
         <table class="table table-hover table-bordered">

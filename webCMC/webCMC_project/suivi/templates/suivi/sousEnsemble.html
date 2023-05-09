@@ -27,6 +27,11 @@
 </div>
 <br>
 <div class="container">
+    {% if sousEnsemble.image_sous_ensemble %}
+    <div>
+        <img src="{{media_url}}{{sousEnsemble.image_sous_ensemble}}" alt="img" width="200" height="auto">
+    </div>
+    {% endif %}
     <table class="table table-hover table-bordered">
         <thead class="table-dark">
             <tr>
