@@ -3,3 +3,4 @@ staticfiles/
 suivi/__pycache__/
 webCMC_project/__pycache__/
 suivi/migrations/__pycache__/
+webCMC_project/settings/

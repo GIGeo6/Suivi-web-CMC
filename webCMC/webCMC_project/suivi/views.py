@@ -433,7 +433,7 @@ def editEnsemble(request,id):
     ensemble = Ensembles.objects.get(id=id)
     
     if request.method == 'POST':
-        form = EditEnsembleForm(request.POST,instance=ensemble)
+        form = EditEnsembleForm(request.POST, request.FILES, instance=ensemble)
         piece_ensemble = PieceEnsemble.objects.get(id_ensemble = id)
         avancementEnsemble = AvancementEnsemble.objects.get(id_ensembles = ensemble)
         if form.is_valid():
@@ -454,7 +454,7 @@ def editEnsemble(request,id):
 @permission_required('suivi.add_ensembles',raise_exception=True)
 def createEnsemble(request,id_affaire,id_outil):
     if request.method == 'POST':
-        form = CreateEnsembleForm(request.POST)
+        form = CreateEnsembleForm(request.POST, request.FILES)
         affaire = Affaires.objects.get(id = id_affaire)
         outil = Outils.objects.get(id = id_outil)
 
@@ -489,7 +489,7 @@ def editSousEnsemble(request,id):
     piece_ensemble = PieceEnsemble.objects.get(id_sousensemble = sousEnsemble)
 
     if request.method == 'POST':
-        form = EditSousEnsembleForm(request.POST, instance= sousEnsemble)
+        form = EditSousEnsembleForm(request.POST, request.FILES, instance= sousEnsemble)
         avancementSousEnsemble = AvancementSousEnsemble.objects.get(id_sousensemble = sousEnsemble)
 
         if form.is_valid():
@@ -521,7 +521,7 @@ def createSousEnsemble(request,id_ensembles):
     outil = ensemble.id_outils
 
     if request.method == 'POST':
-        form = CreateSousEnsembleForm(request.POST)
+        form = CreateSousEnsembleForm(request.POST, request.FILES)
 
         if form.is_valid():
             sousEnsemble = form.save(commit = False)

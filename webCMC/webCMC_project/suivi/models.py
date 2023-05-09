@@ -51,6 +51,7 @@ class Ensembles(models.Model):
     id_avancement = models.ForeignKey('AvancementEnsemble', on_delete=models.CASCADE, null=True)
     id_outils = models.ForeignKey(Outils, on_delete=models.CASCADE, null=True)
     id_affaires = models.ForeignKey(Affaires, on_delete = models.CASCADE, null=True)
+    image_ensemble = models.ImageField(upload_to='img/', null=True)
 
 class SousEnsemble(models.Model):
     nom = models.CharField(max_length=127)
@@ -74,6 +75,7 @@ class SousEnsemble(models.Model):
     id_outils = models.ForeignKey(Outils, on_delete=models.CASCADE, null=True)
     id_affaires = models.ForeignKey(Affaires, on_delete = models.CASCADE, null=True)
     id_ensemble = models.ForeignKey(Ensembles,on_delete = models.CASCADE)
+    image_sous_ensemble = models.ImageField(upload_to='img/', null=True)
     
 
 class Pieces(models.Model):
@@ -438,6 +440,48 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
         return False
     
     new_file = instance.image_outil
+    if not old_file == new_file:
+        if os.path.isfile(old_file.path):
+            os.remove(old_file.path)
+
+@receiver(models.signals.post_delete,sender=Ensembles)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    if instance.image:
+        if os.path.isfile(instance.image_ensemble.path):
+            os.remove(instance.image_ensemble.path)
+
+@receiver(models.signals.pre_save,sender=Ensembles)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+    
+    try:
+        old_file = Ensembles.objects.get(pk=instance.pk).image_ensemble
+    except Ensembles.DoesNotExist:
+        return False
+    
+    new_file = instance.image_ensemble
+    if not old_file == new_file:
+        if os.path.isfile(old_file.path):
+            os.remove(old_file.path)
+            
+@receiver(models.signals.post_delete,sender=SousEnsemble)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    if instance.image:
+        if os.path.isfile(instance.image_sous_ensemble.path):
+            os.remove(instance.image_sous_ensemble.path)
+
+@receiver(models.signals.pre_save,sender=SousEnsemble)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+    
+    try:
+        old_file = SousEnsemble.objects.get(pk=instance.pk).image_sous_ensemble
+    except SousEnsemble.DoesNotExist:
+        return False
+    
+    new_file = instance.image_sous_ensemble
     if not old_file == new_file:
         if os.path.isfile(old_file.path):
             os.remove(old_file.path)
