@@ -436,7 +436,7 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
     
     try:
         old_file = Outils.objects.get(pk=instance.pk).image_outil
-    except Outils.DoesNotExist:
+    except Outils.DoesNotExist or not old_file:
         return False
     
     new_file = instance.image_outil
@@ -457,7 +457,7 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
     
     try:
         old_file = Ensembles.objects.get(pk=instance.pk).image_ensemble
-    except Ensembles.DoesNotExist:
+    except Ensembles.DoesNotExist or not old_file:
         return False
     
     new_file = instance.image_ensemble
@@ -478,10 +478,11 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
     
     try:
         old_file = SousEnsemble.objects.get(pk=instance.pk).image_sous_ensemble
-    except SousEnsemble.DoesNotExist:
+    except SousEnsemble.DoesNotExist or not old_file:
         return False
     
     new_file = instance.image_sous_ensemble
     if not old_file == new_file:
         if os.path.isfile(old_file.path):
             os.remove(old_file.path)
+        else: return False
