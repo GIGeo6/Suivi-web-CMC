@@ -143,7 +143,7 @@ def ensemble(request,id):
     sousEnsembles = SousEnsemble.objects.filter(id_ensemble = ensemble.id)
     pieces = Pieces.objects.filter(id_ensemble=ensemble.id)
     avancement = ensemble.id_avancement
-    return render(request, 'suivi/ensemble.html',{'ensemble':ensemble, 'sousEnsembles':sousEnsembles ,'outil':outil,'affaire':affaire, 'pieces':pieces, 'avancement':avancement})
+    return render(request, 'suivi/ensemble.html',{'media_root':settings.MEDIA_ROOT,'media_url':settings.MEDIA_URL,'ensemble':ensemble, 'sousEnsembles':sousEnsembles ,'outil':outil,'affaire':affaire, 'pieces':pieces, 'avancement':avancement})
 
 @login_required
 def sousEnsemble(request,id):
@@ -153,7 +153,7 @@ def sousEnsemble(request,id):
     outil = sousEnsemble.id_outils
     ensemble = sousEnsemble.id_ensemble
     pieces = Pieces.objects.filter(id_sous_ensemble = sousEnsemble.id)
-    return render(request, 'suivi/sousEnsemble.html',{'affaire':affaire,'outil':outil,'ensemble':ensemble,'sousEnsemble':sousEnsemble, 'pieces':pieces, 'avancement':avancement})
+    return render(request, 'suivi/sousEnsemble.html',{'media_root':settings.MEDIA_ROOT,'media_url':settings.MEDIA_URL,'affaire':affaire,'outil':outil,'ensemble':ensemble,'sousEnsemble':sousEnsemble, 'pieces':pieces, 'avancement':avancement})
 
 
 @login_required
